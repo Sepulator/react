@@ -1,22 +1,28 @@
 import { Card } from '../components/card';
 import React from 'react';
 import { Product } from 'data/type';
-import data from '../data/data.json'
-
-type Props = {
-  className?: string;
-};
+import data from '../data/data.json';
 
 export class Home extends React.Component<Product, {}> {
   state = {
-    count: 0,
+    text: '',
   };
 
-  onBtnClick = () => {
-    this.setState({
-      count: this.state.count + 1,
+  onInputSearch = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    await this.setState({
+      text: e.target.value,
     });
+    localStorage.setItem('search-text', this.state.text);
   };
+
+  componentDidMount() {
+    const text = localStorage.getItem('search-text');
+    if (text) {
+      this.setState({
+        text: text,
+      });
+    }
+  }
 
   render() {
     return (
@@ -32,11 +38,13 @@ export class Home extends React.Component<Product, {}> {
               className="form-control rounded-0"
               placeholder="Search"
               aria-label="Search"
+              value={this.state.text}
+              onInput={this.onInputSearch}
             />
           </form>
         </nav>
-        <div className='text-center'>
-          <Card  {...data}/>
+        <div className="text-center">
+          <Card {...data} />
         </div>
       </div>
     );
