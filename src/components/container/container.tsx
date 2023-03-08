@@ -6,7 +6,7 @@ type Props = {
   children: React.ReactNode;
 };
 
-export class Container extends React.Component<Props, {}> {
+class Container extends React.Component<Props, {}> {
   render() {
     return (
       <div className={`container ${this.props.className}`}>

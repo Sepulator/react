@@ -1,11 +1,9 @@
-import { Container } from 'components/container';
-
 export const About = () => {
   return (
-    <Container>
-      <div>
+
+      <div className='container'>
         <span>About Page</span>
       </div>
-    </Container>
+
   );
 };

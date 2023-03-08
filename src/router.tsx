@@ -1,7 +1,7 @@
-import { About, Home, Main, ErrorPage } from 'pages';
+import { About, Home, Main, ErrorPage } from './pages';
 import { createBrowserRouter } from 'react-router-dom';
 
-const router = createBrowserRouter([
+export const routers = createBrowserRouter([
   {
     path: '/',
     element: <Main />,
