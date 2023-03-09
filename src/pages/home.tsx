@@ -1,6 +1,5 @@
 import { Card } from '../components/card';
 import React from 'react';
-import { Product } from 'data/type';
 import data from '../data/data.json';
 
 export class Home extends React.Component<{}, {}> {
@@ -26,7 +25,7 @@ export class Home extends React.Component<{}, {}> {
 
   render() {
     return (
-      <div className="container">
+      <>
         <nav className="navbar navbar-expand-lg navbar-dark mt-3 mb-5 shadow p-2 bg-color">
           <a className="navbar-brand" href="#">
             Products:
@@ -46,7 +45,7 @@ export class Home extends React.Component<{}, {}> {
         <div className="text-center">
           <Card {...data} />
         </div>
-      </div>
+      </>
     );
   }
 }

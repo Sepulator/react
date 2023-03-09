@@ -3,7 +3,7 @@ import './header.scss';
 
 export const Header = () => {
   return (
-    <nav className="navbar navbar-expand-lg navbar-light bg-white">
+    <header className="navbar navbar-expand-lg navbar-light bg-white">
       <div className="container">
         <button
           className="navbar-toggler"
@@ -34,6 +34,6 @@ export const Header = () => {
           </ul>
         </div>
       </div>
-    </nav>
+    </header>
   );
 };
