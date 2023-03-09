@@ -1,4 +1,4 @@
-import { Container } from 'components/container';
+import { Link } from 'react-router-dom';
 import './header.scss';
 
 export const Header = () => {
@@ -17,19 +17,19 @@ export const Header = () => {
           <i className="fas fa-bars"></i>
         </button>
         <div className="collapse navbar-collapse" id="navbarSupportedContent1">
-          <a className="navbar-brand mt-2 mt-sm-0" href="https://mdbootstrap.com/">
+          <a className="navbar-brand mt-2 mt-sm-0" href="#!">
             <i className="fab fa-react fa-2x"></i>
           </a>
           <ul className="navbar-nav me-auto mb-2 mb-lg-0">
             <li className="nav-item active">
-              <a className="nav-link " href="https://mdbootstrap.com/">
+              <Link to={'/'} className="nav-link">
                 Home
-              </a>
+              </Link>
             </li>
             <li className="nav-item">
-              <a className="nav-link" href="https://mdbootstrap.com/docs/standard/">
+              <Link to={'/about'} className="nav-link">
                 About
-              </a>
+              </Link>
             </li>
           </ul>
         </div>

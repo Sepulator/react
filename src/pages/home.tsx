@@ -3,7 +3,7 @@ import React from 'react';
 import { Product } from 'data/type';
 import data from '../data/data.json';
 
-export class Home extends React.Component<Product, {}> {
+export class Home extends React.Component<{}, {}> {
   state = {
     text: '',
   };
