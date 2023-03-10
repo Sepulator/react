@@ -3,7 +3,7 @@ import './footer.scss';
 
 export const Footer = () => {
   return (
-    <footer className="text-center text-white mt-4 fixed-bottom  bg-color">
+    <footer className="text-center text-white bg-color">
       <div className="container">
         <a
           className="btn-link btn-floating btn-lg text-white"

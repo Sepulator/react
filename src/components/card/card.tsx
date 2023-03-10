@@ -4,12 +4,12 @@ import { Product } from '../../data/type';
 
 export class Card extends React.Component<Product, {}> {
   render() {
-    const { thumbnail, title, category, discountPercentage, brand, price } = this.props;
+    const { id, title, price, discountPercentage, brand, category, thumbnail } = this.props;
     return (
       <div className="col-lg-3 col-md-6 mb-4">
         <div className="card">
           <div className="bg-image hover-zoom ripple" data-mdb-ripple-color="light">
-            <img src={thumbnail} className="w-100" />
+            <img src={thumbnail} className="w-100" style={{height:'300px'}}/>
             <a href="#!">
               <div className="mask">
                 <div className="d-flex justify-content-start align-items-end h-100">
@@ -25,7 +25,7 @@ export class Card extends React.Component<Product, {}> {
           </div>
           <div className="card-body">
             <a href="" className="text-reset">
-              <h5 className="card-title mb-2">{title}</h5>
+              <h6 className="card-title mb-2">{title}</h6>
             </a>
             <a href="" className="text-reset ">
               <p className="mb-0">{category}</p>

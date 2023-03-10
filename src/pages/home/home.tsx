@@ -1,6 +1,7 @@
-import { Card } from '../components/card';
+import { Card } from '../../components/card';
 import React from 'react';
-import data from '../data/data.json';
+import data from '../../data/data.json';
+import products from '../../data/products.json';
 
 export class Home extends React.Component<{}, {}> {
   state = {
@@ -24,6 +25,8 @@ export class Home extends React.Component<{}, {}> {
   }
 
   render() {
+    const items = products.map((item) => <Card {...item} key={item.id}/>);
+
     return (
       <>
         <nav className="navbar navbar-expand-lg navbar-dark mt-3 mb-5 shadow p-2 bg-color">
@@ -42,8 +45,8 @@ export class Home extends React.Component<{}, {}> {
             />
           </form>
         </nav>
-        <div className="text-center">
-          <Card {...data} />
+        <div className="text-center mb-2">
+          <div className="row">{items}</div>
         </div>
       </>
     );
