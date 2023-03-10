@@ -1,9 +1,12 @@
 import { Card } from '../../components/card';
 import React from 'react';
-import data from '../../data/data.json';
 import products from '../../data/products.json';
 
-export class Home extends React.Component<{}, {}> {
+type StateType = {
+  text: string;
+};
+
+export class Home extends React.Component<Record<string, never>, StateType> {
   state = {
     text: '',
   };
@@ -25,14 +28,12 @@ export class Home extends React.Component<{}, {}> {
   }
 
   render() {
-    const items = products.map((item) => <Card {...item} key={item.id}/>);
+    const items = products.map((item) => <Card {...item} key={item.id} />);
 
     return (
       <>
-        <nav className="navbar navbar-expand-lg navbar-dark mt-3 mb-5 shadow p-2 bg-color">
-          <a className="navbar-brand" href="#">
-            Products:
-          </a>
+        <nav className="navbar navbar-expand-lg navbar-dark mt-3 mb-3 shadow p-2 bg-color">
+          <div className="navbar-brand">Products:</div>
 
           <form className="w-auto py-1 float-start search-input">
             <input

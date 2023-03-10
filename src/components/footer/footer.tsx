@@ -3,7 +3,7 @@ import './footer.scss';
 
 export const Footer = () => {
   return (
-    <footer className="text-center text-white bg-color">
+    <footer className="text-center text-white bg-color" style={{ marginTop: 'auto' }}>
       <div className="container">
         <a
           className="btn-link btn-floating btn-lg text-white"

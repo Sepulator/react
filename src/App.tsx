@@ -6,8 +6,7 @@ type Props = {
   className?: string;
 };
 
-class App extends React.Component<Props, {}> {
-
+class App extends React.Component<Props, Record<string, never>> {
   render() {
     return (
       <>
