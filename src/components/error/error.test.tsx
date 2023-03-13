@@ -1,15 +1,14 @@
 import { describe, it } from 'vitest';
 import { render, screen } from '@testing-library/react';
+import { Error } from './error';
 
-import { About } from './about';
-
-describe('About', () => {
-  it('Renders about page', () => {
-    render(<About />);
+describe('Error', () => {
+  it('Renders error page', () => {
+    render(<Error />);
     expect(
       screen.getByRole('heading', {
         level: 3,
       })
-    ).toHaveTextContent('About Page');
+    ).toHaveTextContent('Error Page');
   });
 });

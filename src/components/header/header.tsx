@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import './header.scss';
 
 export const Header = () => {
@@ -21,15 +21,31 @@ export const Header = () => {
             <i className="fab fa-react fa-2x"></i>
           </a>
           <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-            <li className="nav-item active">
-              <Link to={'/'} className="nav-link">
+            <li className="nav-item">
+              <NavLink
+                to={'/'}
+                className="nav-link"
+                style={({ isActive }) => {
+                  return {
+                    color: isActive ? 'white' : '',
+                  };
+                }}
+              >
                 Home
-              </Link>
+              </NavLink>
             </li>
             <li className="nav-item">
-              <Link to={'/about'} className="nav-link">
+              <NavLink
+                to={'/about'}
+                className="nav-link"
+                style={({ isActive }) => {
+                  return {
+                    color: isActive ? 'white' : '',
+                  };
+                }}
+              >
                 About
-              </Link>
+              </NavLink>
             </li>
           </ul>
         </div>

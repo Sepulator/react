@@ -1,11 +1,12 @@
-import { Footer } from '../../components/footer';
 import { Header } from '../../components/header';
+import { Footer } from '../../components/footer';
+import { Error } from '../../components/error';
 
 export const ErrorPage = () => {
   return (
     <>
       <Header />
-      <div className="container">Error 404</div>
+      <Error />
       <Footer />
     </>
   );

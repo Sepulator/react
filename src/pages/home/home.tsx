@@ -33,18 +33,22 @@ export class Home extends React.Component<Record<string, never>, StateType> {
     return (
       <>
         <nav className="navbar navbar-expand-lg navbar-dark mt-3 mb-3 shadow p-2 bg-color">
-          <div className="navbar-brand">Products:</div>
-
-          <form className="w-auto py-1 float-start search-input">
-            <input
-              type="search"
-              className="form-control rounded-0"
-              placeholder="Search"
-              aria-label="Search"
-              value={this.state.text}
-              onInput={this.onInputSearch}
-            />
-          </form>
+          <div className="input-group w-auto py-1">
+            <div className="bg-light">
+              <input
+                type="search"
+                className="form-control rounded-0"
+                placeholder="Search"
+                aria-label="Search"
+                aria-describedby="search-addon"
+                value={this.state.text}
+                onInput={this.onInputSearch}
+              />
+            </div>
+            <button id="search-button" type="button" className="btn btn-primary">
+              <i className="fas fa-search"></i>
+            </button>
+          </div>
         </nav>
         <div className="text-center mb-2">
           <div className="row">{items}</div>

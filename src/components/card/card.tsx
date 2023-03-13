@@ -23,7 +23,7 @@ export class Card extends React.Component<Product, never> {
               </div>
             </a>
           </div>
-          <div className="card-body">
+          <div className="card-body p-2">
             <div className="text-reset">
               <h6 className="card-title mb-2">{title}</h6>
             </div>

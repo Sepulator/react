@@ -8,11 +8,7 @@ type Props = {
 
 class App extends React.Component<Props, Record<string, never>> {
   render() {
-    return (
-      <>
-        <RouterProvider router={routers} />
-      </>
-    );
+    return <RouterProvider router={routers} />;
   }
 }
 
