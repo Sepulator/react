@@ -19,12 +19,12 @@ export class Home extends React.Component<Props, State> {
   }
 
   getLocalStorage() {
-    const value = localStorage.getItem('searh-text');
+    const value = localStorage.getItem('search-text');
     if (value) this.setState({ text: value });
   }
 
   saveToLocalStorage() {
-    localStorage.setItem('searh-text', this.state.text);
+    localStorage.setItem('search-text', this.state.text);
   }
 
   onInputSearch = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -55,8 +55,6 @@ export class Home extends React.Component<Props, State> {
                 type="search"
                 className="form-control rounded-0"
                 placeholder="Search"
-                aria-label="Search"
-                aria-describedby="search-addon"
                 value={this.state.text}
                 onInput={this.onInputSearch}
               />

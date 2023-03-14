@@ -1,11 +1,11 @@
 import { Footer } from '../../components/footer/footer';
-import { Header } from '../../components/header';
+import { Header } from '../../components/header/header';
 import { Outlet } from 'react-router-dom';
 
 export const Main = () => {
   return (
     <>
-      <Header />
+      <Header error={false} />
       <main className="container">
         <Outlet />
       </main>

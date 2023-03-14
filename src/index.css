@@ -28,3 +28,13 @@
 .nav-item > .active {
   background-color: var(--bg-color);
 }
+
+.nav-title {
+  transform: translateX(-100%);
+}
+
+@media (max-width: 576px){
+  .nav-title {
+    transform: translateX(0);
+  }
+}
