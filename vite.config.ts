@@ -3,7 +3,7 @@
 import checker from 'vite-plugin-checker';
 import react from '@vitejs/plugin-react';
 import eslint from 'vite-plugin-eslint';
-import { defineConfig } from 'vite';
+import { defineConfig, configDefaults } from 'vitest/config';
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -11,7 +11,9 @@ export default defineConfig({
     react(),
     eslint(),
     checker({
-      typescript: true,
+      eslint: {
+        lintCommand: 'eslint "./src/**/*.{ts,tsx}"',
+      },
     }),
   ],
   test: {
@@ -21,7 +23,7 @@ export default defineConfig({
     coverage: {
       provider: 'c8',
       all: true,
-      skipFull: true,
+      skipFull: false,
       reporter: 'text',
     },
   },

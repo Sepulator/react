@@ -31,12 +31,12 @@ export class Card extends React.Component<Product, never> {
               <p className="mb-0">{category}</p>
               <p className="mb-2">{brand}</p>
             </div>
-            <h6 className="price">
+            <h5 className="price">
               <s>{`${price}$`}</s>
               <strong className="ms-2 sale">
                 {`${((price * (100 - discountPercentage)) / 100).toFixed(2)}$`}
               </strong>
-            </h6>
+            </h5>
           </div>
         </div>
       </div>
