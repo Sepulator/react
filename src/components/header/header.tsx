@@ -1,3 +1,4 @@
+import { Paths } from 'data/type';
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 import './header.scss';
@@ -10,16 +11,24 @@ type Props = {
   error: boolean;
 };
 
+const paths: Paths = {
+  '/': 'Home Page',
+  '/about': 'About Page',
+  error: 'Error Page',
+};
+
 export class Header extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
-    if (props.error) {
+    const { pathname } = window.location;
+    const title = paths[pathname];
+    if (title) {
       this.state = {
-        title: 'Error Page',
+        title: title,
       };
     } else
       this.state = {
-        title: 'Home Page',
+        title: paths.error,
       };
   }
 

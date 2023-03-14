@@ -18,3 +18,7 @@ export interface ProductApi {
   skip: number;
   limit: number;
 }
+
+export type Paths = {
+  [key: string]: string;
+};

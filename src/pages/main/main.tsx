@@ -5,7 +5,7 @@ import { Outlet } from 'react-router-dom';
 export const Main = () => {
   return (
     <>
-      <Header error={false} />
+      <Header />
       <main className="container">
         <Outlet />
       </main>
