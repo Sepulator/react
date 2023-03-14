@@ -1,30 +1,46 @@
-import { Card } from '../../components/card';
+import { Card } from '../../components/card/card';
 import React from 'react';
 import products from '../../data/products.json';
 
-type StateType = {
+type State = {
   text: string;
 };
 
-export class Home extends React.Component<Record<string, never>, StateType> {
-  state = {
-    text: '',
-  };
+type Props = {
+  className?: string;
+};
+
+export class Home extends React.Component<Props, State> {
+  constructor(props: Props) {
+    super(props);
+    this.state = {
+      text: '',
+    };
+  }
+
+  getLocalStorage() {
+    const value = localStorage.getItem('searh-text');
+    if (value) this.setState({ text: value });
+  }
+
+  saveToLocalStorage() {
+    localStorage.setItem('searh-text', this.state.text);
+  }
 
   onInputSearch = async (e: React.ChangeEvent<HTMLInputElement>) => {
     await this.setState({
       text: e.target.value,
     });
-    localStorage.setItem('search-text', this.state.text);
   };
 
   componentDidMount() {
-    const text = localStorage.getItem('search-text');
-    if (text) {
-      this.setState({
-        text: text,
-      });
-    }
+    this.getLocalStorage();
+    window.addEventListener('beforeunload', this.saveToLocalStorage.bind(this));
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('beforeunload', this.saveToLocalStorage.bind(this));
+    this.saveToLocalStorage();
   }
 
   render() {
