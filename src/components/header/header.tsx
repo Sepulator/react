@@ -68,6 +68,20 @@ export class Header extends React.Component<Props, State> {
                 About
               </NavLink>
             </li>
+            <li className="nav-item">
+              <NavLink
+                to={'/form'}
+                className="nav-link"
+                style={({ isActive }) => {
+                  return {
+                    color: isActive ? 'white' : '',
+                  };
+                }}
+                onClick={() => this.setState({ title: 'Form Page' })}
+              >
+                Form
+              </NavLink>
+            </li>
           </ul>
           {title}
         </div>

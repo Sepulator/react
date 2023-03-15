@@ -3,6 +3,7 @@ import { ErrorPage } from './pages/error/errorPage';
 import { Home } from './pages/home/home';
 import { Main } from './pages/main/main';
 import { createBrowserRouter } from 'react-router-dom';
+import { FormPage } from './pages/form/formPage';
 
 export const routers = createBrowserRouter([
   {
@@ -17,6 +18,10 @@ export const routers = createBrowserRouter([
       {
         path: '/about',
         element: <About />,
+      },
+      {
+        path: '/form',
+        element: <FormPage />,
       },
     ],
   },
