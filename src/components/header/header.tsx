@@ -8,7 +8,6 @@ type State = {
 
 type Props = {
   className?: string;
-  error: boolean;
 };
 
 const paths: Paths = {
