@@ -4,6 +4,7 @@ import checker from 'vite-plugin-checker';
 import react from '@vitejs/plugin-react';
 import eslint from 'vite-plugin-eslint';
 import { defineConfig } from 'vitest/config';
+import path from 'path';
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -25,6 +26,11 @@ export default defineConfig({
       all: true,
       skipFull: false,
       reporter: 'text',
+    },
+  },
+  resolve: {
+    alias: {
+      '@': path.resolve(__dirname, './src'),
     },
   },
 });

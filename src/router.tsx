@@ -1,9 +1,10 @@
+import { createBrowserRouter } from 'react-router-dom';
+
 import { About } from './pages/about/about';
 import { ErrorPage } from './pages/error/errorPage';
-import { Home } from './pages/home/home';
 import { Main } from './pages/main/main';
-import { createBrowserRouter } from 'react-router-dom';
 import { FormPage } from './pages/form/formPage';
+import { Home } from './pages/home/home';
 
 export const routers = createBrowserRouter([
   {
