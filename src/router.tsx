@@ -1,4 +1,4 @@
-import { createBrowserRouter } from 'react-router-dom';
+import { createBrowserRouter, Navigate } from 'react-router-dom';
 
 import { About } from './pages/about/about';
 import { ErrorPage } from './pages/error/errorPage';
@@ -10,7 +10,6 @@ export const routers = createBrowserRouter([
   {
     path: '/',
     element: <Main />,
-    errorElement: <ErrorPage />,
     children: [
       {
         path: '/',
@@ -23,6 +22,14 @@ export const routers = createBrowserRouter([
       {
         path: '/form',
         element: <FormPage />,
+      },
+      {
+        path: '/*',
+        element: <Navigate to="/404" replace />,
+      },
+      {
+        path: '/404',
+        element: <ErrorPage />,
       },
     ],
   },

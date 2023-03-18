@@ -1,5 +1,6 @@
 {
   "name": "react-ts",
+  "homepage": "https://sepulator.github.io/react/",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -8,7 +9,10 @@
     "build": "tsc --noEmit && vite build",
     "preview": "vite preview",
     "test": "vitest",
-    "coverage": "vitest run --coverage"
+    "coverage": "vitest run --coverage",
+    "lint": "eslint . --ext .tsx --ext .ts",
+    "lint-fix": "eslint . --ext .tsx --ext .ts --fix",
+    "deploy": "gh-pages -d dist"
   },
   "dependencies": {
     "react": "^18.2.0",

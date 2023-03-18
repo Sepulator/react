@@ -1,4 +1,4 @@
-import { Paths } from 'data/type';
+import { Paths } from '@/data/type';
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 import './header.scss';
