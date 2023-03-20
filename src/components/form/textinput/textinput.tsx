@@ -1,6 +1,15 @@
 import { Component } from 'react';
 
-export class TextInput extends Component {
+interface Props {
+  text: React.RefObject<HTMLInputElement>;
+  validate: boolean;
+}
+
+interface State {
+  value: string;
+}
+
+export class TextInput extends Component<Props, State> {
   render() {
     return (
       <div className="md-form mb-2">
@@ -8,10 +17,11 @@ export class TextInput extends Component {
           Product title
         </label>
         <input
+          ref={this.props.text}
           type="text"
           id="name"
           name="text"
-          className="form-control"
+          className={`form-control ${this.props.validate ? '' : 'is-invalid'}`}
           placeholder="Enter title of product"
         />
       </div>
