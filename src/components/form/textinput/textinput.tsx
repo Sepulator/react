@@ -24,6 +24,9 @@ export class TextInput extends Component<Props, State> {
           className={`form-control ${this.props.validate ? '' : 'is-invalid'}`}
           placeholder="Enter title of product"
         />
+        <div className="invalid-feedback">
+          Title contain from 3 to 12 characters Latin letters and numbers .
+        </div>
       </div>
     );
   }

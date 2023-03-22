@@ -23,6 +23,7 @@ export class DateInput extends Component<Props, State> {
           id="date"
           className={`form-control  ${this.props.validate ? '' : 'is-invalid'}`}
         />
+        <div className="invalid-feedback">Select date of manufacture.</div>
       </div>
     );
   }

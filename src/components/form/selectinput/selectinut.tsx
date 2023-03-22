@@ -8,11 +8,11 @@ interface State {
   value: string;
 }
 
-const optionValue = ['Perfume', 'Skincare', 'Groceries', 'Home Decoration'];
+export const selectOptions = ['Perfume', 'Skincare', 'Groceries', 'Home Decoration'];
 
 export class SelectInput extends Component<Props, State> {
   render() {
-    const items = optionValue.map((el, index) => (
+    const items = selectOptions.map((el, index) => (
       <option value={el} key={index}>
         {el}
       </option>

@@ -1,3 +1,4 @@
+import { validateForm } from '@/helpers/validateform';
 import React from 'react';
 import { CheckboxInput, ICheckboxList } from './checkboxinput/checkboxinput';
 import { DateInput } from './dateinput/dateinput';
@@ -7,10 +8,10 @@ import { SelectInput } from './selectinput/selectinut';
 import { TextInput } from './textinput/textinput';
 
 interface Props {
-  className: string;
+  className?: string;
 }
 
-interface FormInputs {
+export interface IFormInputs {
   file: React.RefObject<HTMLInputElement>;
   text: React.RefObject<HTMLInputElement>;
   date: React.RefObject<HTMLInputElement>;
@@ -22,10 +23,13 @@ interface FormInputs {
 interface FormValidate {
   text: boolean;
   date: boolean;
+  select: boolean;
+  radio: boolean;
+  checkbox: boolean;
 }
 
 export class Form extends React.Component<Props> {
-  form: FormInputs;
+  form: IFormInputs;
   validate: FormValidate;
   constructor(props: Props) {
     super(props);
@@ -48,13 +52,19 @@ export class Form extends React.Component<Props> {
     this.validate = {
       text: true,
       date: true,
+      select: true,
+      radio: true,
+      checkbox: true,
     };
   }
 
+  validateInputs = () => {};
+
   onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    console.log(this.form.text.current?.value);
+    console.log(validateForm(this.form));
   }
+
   render() {
     return (
       <div className="d-flex justify-content-center my-3">

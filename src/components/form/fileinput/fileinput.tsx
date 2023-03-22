@@ -25,7 +25,9 @@ export class FileInput extends Component<Props, State> {
             name="file"
             className="form-control d-none"
             id="file"
+            accept=".png, .jpg, .jpeg"
           />
+          <div className="invalid-feedback mt-2">Image file needed.</div>
         </label>
       </div>
     );

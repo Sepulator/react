@@ -19,42 +19,47 @@ export class RadioInput extends Component<Props, State> {
     return (
       <>
         <label className="form-label">Select promo discount</label>
-        <div className="btn-group shadow-0">
-          <input
-            type="radio"
-            ref={this.props.radio.promo1}
-            className="btn-check"
-            name="radio"
-            id="promo1"
-            value="5% promo"
-          />
-          <label className="btn btn-secondary" htmlFor="promo1">
-            5% promo
-          </label>
-
-          <input
-            type="radio"
-            ref={this.props.radio.promo2}
-            className="btn-check"
-            name="radio"
-            id="promo2"
-            value="10% promo"
-          />
-          <label className="btn btn-secondary" htmlFor="promo2">
-            10% promo
-          </label>
-
-          <input
-            type="radio"
-            ref={this.props.radio.promo3}
-            className="btn-check"
-            name="radio"
-            id="promo3"
-            value="15% promo"
-          />
-          <label className="btn btn-secondary" htmlFor="promo3">
-            15% promo
-          </label>
+        <div className="">
+          <div className="form-check form-check-inline">
+            <input
+              ref={this.props.radio.promo1}
+              type="radio"
+              className="form-check-input"
+              id="promo1"
+              name="radio"
+              value="5% promo"
+            />
+            <label className="form-check-label" htmlFor="promo1">
+              5% promo
+            </label>
+          </div>
+          <div className="form-check form-check-inline">
+            <input
+              ref={this.props.radio.promo2}
+              type="radio"
+              className="form-check-input"
+              id="promo2"
+              name="radio"
+              value="10% promo"
+            />
+            <label className="form-check-label" htmlFor="promo2">
+              10% promo
+            </label>
+          </div>
+          <div className="form-check form-check-inline">
+            <input
+              ref={this.props.radio.promo3}
+              type="radio"
+              className="form-check-input"
+              id="promo3"
+              name="radio"
+              value="15% promo"
+            />
+            <label className="form-check-label" htmlFor="promo3">
+              15% promo
+            </label>
+          </div>
+          <div className="invalid-feedback">Select desired discount.</div>
         </div>
       </>
     );

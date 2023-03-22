@@ -11,8 +11,7 @@
     "test": "vitest",
     "coverage": "vitest run --coverage",
     "lint": "eslint . --ext .tsx --ext .ts",
-    "lint-fix": "eslint . --ext .tsx --ext .ts --fix",
-    "deploy": "gh-pages -d dist"
+    "lint-fix": "eslint . --ext .tsx --ext .ts --fix"
   },
   "dependencies": {
     "react": "^18.2.0",
@@ -37,7 +36,6 @@
     "eslint-plugin-prettier": "^4.2.1",
     "eslint-plugin-react": "^7.32.2",
     "eslint-plugin-react-hooks": "^4.6.0",
-    "gh-pages": "^5.0.0",
     "husky": "^8.0.3",
     "jsdom": "^21.1.0",
     "lint-staged": "^13.1.2",
