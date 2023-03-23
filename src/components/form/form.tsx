@@ -1,14 +1,25 @@
-import { validateForm } from '@/helpers/validateform';
 import React from 'react';
+
+import {
+  gatherFormInputs,
+  validateCheckbox,
+  validateDate,
+  validateFile,
+  validateRadio,
+  validateSelect,
+  validateText,
+} from '@/helpers/validateform';
 import { CheckboxInput, ICheckboxList } from './checkboxinput/checkboxinput';
 import { DateInput } from './dateinput/dateinput';
 import { FileInput } from './fileinput/fileinput';
 import { IRadioList, RadioInput } from './radioinput/radioinput';
 import { SelectInput } from './selectinput/selectinut';
 import { TextInput } from './textinput/textinput';
+import { IFormResult } from '../card-form/cardform';
 
 interface Props {
   className?: string;
+  generateCards: (card: IFormResult) => void;
 }
 
 export interface IFormInputs {
@@ -18,9 +29,11 @@ export interface IFormInputs {
   select: React.RefObject<HTMLSelectElement>;
   radio: IRadioList;
   checkbox: ICheckboxList;
+  form: React.RefObject<HTMLFormElement>;
 }
 
-interface FormValidate {
+interface IValidInputs {
+  file: boolean;
   text: boolean;
   date: boolean;
   select: boolean;
@@ -28,9 +41,12 @@ interface FormValidate {
   checkbox: boolean;
 }
 
-export class Form extends React.Component<Props> {
+interface State {
+  validation: IValidInputs;
+}
+
+export class Form extends React.Component<Props, State> {
   form: IFormInputs;
-  validate: FormValidate;
   constructor(props: Props) {
     super(props);
     this.form = {
@@ -48,21 +64,56 @@ export class Form extends React.Component<Props> {
         arrival: React.createRef(),
         best: React.createRef(),
       },
+      form: React.createRef(),
     };
-    this.validate = {
-      text: true,
-      date: true,
-      select: true,
-      radio: true,
-      checkbox: true,
+    this.state = {
+      validation: {
+        file: true,
+        text: true,
+        date: true,
+        select: true,
+        radio: true,
+        checkbox: true,
+      },
     };
   }
 
-  validateInputs = () => {};
+  validateInputs = async () => {
+    const validation = {
+      file: validateFile(this.form.file),
+      text: validateText(this.form.text),
+      date: validateDate(this.form.date),
+      select: validateSelect(this.form.select),
+      radio: validateRadio(this.form.radio),
+      checkbox: validateCheckbox(this.form.checkbox),
+    };
+    this.setState({
+      validation: validation,
+    });
+  };
 
-  onSubmit(e: React.FormEvent<HTMLFormElement>) {
+  async onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    console.log(validateForm(this.form));
+    await this.validateInputs();
+    const validForm = Object.values(this.state.validation).every((el) => el);
+    if (validForm) {
+      const result = await gatherFormInputs(this.form);
+      this.props.generateCards(result);
+      this.form.form.current?.reset();
+    }
+  }
+
+  onReset(e: React.FormEvent<HTMLFormElement>) {
+    this.setState({
+      validation: {
+        file: true,
+        text: true,
+        date: true,
+        select: true,
+        radio: true,
+        checkbox: true,
+      },
+    });
   }
 
   render() {
@@ -70,15 +121,23 @@ export class Form extends React.Component<Props> {
       <div className="d-flex justify-content-center my-3">
         <div className="col-lg-5">
           <div className="card">
-            <form action="" onSubmit={(e) => this.onSubmit(e)}>
-              <FileInput file={this.form.file} />
+            <form
+              action=""
+              ref={this.form.form}
+              onSubmit={(e) => this.onSubmit(e)}
+              onReset={(e) => this.onReset(e)}
+            >
+              <FileInput file={this.form.file} validate={this.state.validation.file} />
               <div className="card-body">
                 <div className="row">
-                  <TextInput text={this.form.text} validate={this.validate.text} />
-                  <DateInput date={this.form.date} validate={this.validate.date} />
-                  <SelectInput select={this.form.select} />
-                  <RadioInput radio={this.form.radio} />
-                  <CheckboxInput checkbox={this.form.checkbox} />
+                  <TextInput text={this.form.text} validate={this.state.validation.text} />
+                  <DateInput date={this.form.date} validate={this.state.validation.date} />
+                  <SelectInput select={this.form.select} validate={this.state.validation.select} />
+                  <RadioInput radio={this.form.radio} validate={this.state.validation.radio} />
+                  <CheckboxInput
+                    checkbox={this.form.checkbox}
+                    validate={this.state.validation.checkbox}
+                  />
                 </div>
               </div>
               <div className="d-flex justify-content-center card-footer border-0 bg-light py-3 text-end">

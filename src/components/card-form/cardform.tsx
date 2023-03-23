@@ -1,38 +1,37 @@
 import React from 'react';
 
-type CheckboxList = {
-  exclusive: string;
-  arrival: string;
-  best: string;
-};
-
-interface Props {
-  file: string;
-  title: string;
-  date: Date;
+export interface IFormResult {
+  file: File;
+  text: string;
+  date: string;
   select: string;
   radio: string;
-  checkbox: CheckboxList;
+  checkbox: string[];
 }
 
-export class FormCard extends React.Component<Props, never> {
+export class CardForm extends React.Component<IFormResult> {
   render() {
-    const { file, title, date, select, radio, checkbox } = this.props;
+    const { file, text, date, select, radio, checkbox } = this.props;
+    const checkboxList = checkbox.map((el, index) => (
+      <p className="mb-2" key={index}>
+        {el}
+      </p>
+    ));
     return (
       <div className="col-lg-3 col-md-6 mb-4">
         <div className="card">
           <div className="bg-image hover-zoom ripple" data-mdb-ripple-color="light">
             <img
-              src={file}
+              src={URL.createObjectURL(file)}
               className="w-100"
               style={{ height: '300px', width: '300px' }}
-              alt={title}
+              alt={text}
             />
             <a href="#!">
               <div className="mask">
                 <div className="d-flex justify-content-start align-items-end h-100">
                   <h5>
-                    <span className="badge sale-badge ms-2">{-`${radio}`}</span>
+                    <span className="badge sale-badge ms-2">{`${radio}`}</span>
                   </h5>
                 </div>
               </div>
@@ -43,16 +42,14 @@ export class FormCard extends React.Component<Props, never> {
           </div>
           <div className="card-body p-2">
             <div className="text-reset">
-              <h6 className="card-title mb-2">{title}</h6>
+              <h6 className="card-title mb-2">{text}</h6>
             </div>
             <div className="text-reset ">
               <p className="mb-0">{select}</p>
-              <p className="mb-2">{checkbox.arrival}</p>
-              <p className="mb-2">{checkbox.best}</p>
-              <p className="mb-2">{checkbox.exclusive}</p>
+              {checkboxList}
             </div>
             <h5 className="price">
-              <label>{`${date}$`}</label>
+              <label>{`${date}`}</label>
             </h5>
           </div>
         </div>

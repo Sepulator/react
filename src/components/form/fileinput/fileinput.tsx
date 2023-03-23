@@ -2,13 +2,10 @@ import { Component } from 'react';
 
 interface Props {
   file: React.RefObject<HTMLInputElement>;
+  validate: boolean;
 }
 
-interface State {
-  value: string;
-}
-
-export class FileInput extends Component<Props, State> {
+export class FileInput extends Component<Props> {
   render() {
     return (
       <div
@@ -17,13 +14,13 @@ export class FileInput extends Component<Props, State> {
       >
         <i className="fas fa-image fa-5x text-white d-block mb-4"></i>
 
-        <label className="btn btn-white btn-rounded shadow-3" id="file">
-          <i className="fas fa-plus me-2"></i>Add a photo
+        <label className="btn btn-white btn-rounded shadow-3 form-check " id="file">
+          <i className="fas fa-plus me-2 "></i>Add a photo
           <input
             ref={this.props.file}
             type="file"
             name="file"
-            className="form-control d-none"
+            className={`form-control d-none ${this.props.validate ? '' : 'is-invalid'}`}
             id="file"
             accept=".png, .jpg, .jpeg"
           />

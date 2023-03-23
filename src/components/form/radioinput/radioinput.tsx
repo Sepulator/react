@@ -2,6 +2,7 @@ import { Component } from 'react';
 
 interface Props {
   radio: IRadioList;
+  validate: boolean;
 }
 
 export interface IRadioList {
@@ -10,21 +11,17 @@ export interface IRadioList {
   promo3: React.RefObject<HTMLInputElement>;
 }
 
-interface State {
-  value: string;
-}
-
-export class RadioInput extends Component<Props, State> {
+export class RadioInput extends Component<Props> {
   render() {
     return (
       <>
         <label className="form-label">Select promo discount</label>
-        <div className="">
+        <div>
           <div className="form-check form-check-inline">
             <input
               ref={this.props.radio.promo1}
               type="radio"
-              className="form-check-input"
+              className={`form-check-input  ${this.props.validate ? '' : 'is-invalid'}`}
               id="promo1"
               name="radio"
               value="5% promo"
@@ -32,12 +29,13 @@ export class RadioInput extends Component<Props, State> {
             <label className="form-check-label" htmlFor="promo1">
               5% promo
             </label>
+            <div className="invalid-feedback">Choose desired discount.</div>
           </div>
           <div className="form-check form-check-inline">
             <input
               ref={this.props.radio.promo2}
               type="radio"
-              className="form-check-input"
+              className={`form-check-input  ${this.props.validate ? '' : 'is-invalid'}`}
               id="promo2"
               name="radio"
               value="10% promo"
@@ -50,7 +48,7 @@ export class RadioInput extends Component<Props, State> {
             <input
               ref={this.props.radio.promo3}
               type="radio"
-              className="form-check-input"
+              className={`form-check-input  ${this.props.validate ? '' : 'is-invalid'}`}
               id="promo3"
               name="radio"
               value="15% promo"
@@ -59,7 +57,6 @@ export class RadioInput extends Component<Props, State> {
               15% promo
             </label>
           </div>
-          <div className="invalid-feedback">Select desired discount.</div>
         </div>
       </>
     );

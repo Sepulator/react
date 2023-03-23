@@ -5,11 +5,7 @@ interface Props {
   validate: boolean;
 }
 
-interface State {
-  value: string;
-}
-
-export class DateInput extends Component<Props, State> {
+export class DateInput extends Component<Props> {
   render() {
     return (
       <div className="md-form mb-2 col-md">
@@ -23,7 +19,7 @@ export class DateInput extends Component<Props, State> {
           id="date"
           className={`form-control  ${this.props.validate ? '' : 'is-invalid'}`}
         />
-        <div className="invalid-feedback">Select date of manufacture.</div>
+        <div className="invalid-feedback">Select manufacture date below current one.</div>
       </div>
     );
   }

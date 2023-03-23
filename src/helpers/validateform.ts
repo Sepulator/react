@@ -44,20 +44,21 @@ export const validateRadio = (radio: IRadioList) => {
   return false;
 };
 
-export const validateCheckbox = (radio: ICheckboxList) => {
-  const checked = Object.values(radio).some((el) => el.current.checked === true);
+export const validateCheckbox = (checkbox: ICheckboxList) => {
+  const checked = Object.values(checkbox).some((el) => el.current.checked === true);
   if (checked) return true;
   return false;
 };
 
-export const validateForm = (form: IFormInputs) => {
-  const result = [
-    validateFile(form.file),
-    validateText(form.text),
-    validateDate(form.date),
-    validateSelect(form.select),
-    validateRadio(form.radio),
-    validateCheckbox(form.checkbox),
-  ];
-  return result.every((el) => el === true);
+export const gatherFormInputs = async (form: IFormInputs) => {
+  const file = form.file.current!.files![0];
+  const text = form.text.current!.value;
+  const date = form.date.current!.value;
+  const select = form.select.current!.value;
+  const radio: string = Object.values(form.radio).find((el) => el.current.checked).current.value;
+  const checkbox: string[] = Object.values(form.checkbox).reduce((prev, curr) => {
+    if (curr.current.checked) prev.push(curr.current.value);
+    return prev;
+  }, []);
+  return { file, text, date, select, radio, checkbox };
 };

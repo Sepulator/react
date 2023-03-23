@@ -1,6 +1,7 @@
-import { Paths } from '@/data/type';
 import React from 'react';
 import { NavLink } from 'react-router-dom';
+
+import { Paths } from '@/data/type';
 import './header.scss';
 
 type State = {

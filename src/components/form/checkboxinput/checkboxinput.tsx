@@ -2,6 +2,7 @@ import { Component } from 'react';
 
 interface Props {
   checkbox: ICheckboxList;
+  validate: boolean;
 }
 
 export interface ICheckboxList {
@@ -10,11 +11,7 @@ export interface ICheckboxList {
   best: React.RefObject<HTMLInputElement>;
 }
 
-interface State {
-  value: string;
-}
-
-export class CheckboxInput extends Component<Props, State> {
+export class CheckboxInput extends Component<Props> {
   render() {
     return (
       <>
@@ -23,23 +20,24 @@ export class CheckboxInput extends Component<Props, State> {
           <div className="form-check form-check-inline">
             <input
               ref={this.props.checkbox.exclusive}
-              className="form-check-input"
+              className={`form-check-input  ${this.props.validate ? '' : 'is-invalid'}`}
               type="checkbox"
-              value="exclusive"
+              value="Very exclusive"
               name="exclusive"
               id="exclusive"
             />
             <label className="form-check-label" htmlFor="exclusive">
               Very exclusive
             </label>
+            <div className="invalid-feedback">Choose desired discount.</div>
           </div>
 
           <div className="form-check form-check-inline">
             <input
               ref={this.props.checkbox.arrival}
-              className="form-check-input"
+              className={`form-check-input  ${this.props.validate ? '' : 'is-invalid'}`}
               type="checkbox"
-              value="arrival"
+              value="New arrival"
               name="arrival"
               id="arrival"
             />
@@ -51,9 +49,9 @@ export class CheckboxInput extends Component<Props, State> {
           <div className="form-check form-check-inline">
             <input
               ref={this.props.checkbox.best}
-              className="form-check-input"
+              className={`form-check-input  ${this.props.validate ? '' : 'is-invalid'}`}
               type="checkbox"
-              value="best"
+              value="Best Seller"
               name="best"
               id="best"
             />
@@ -61,7 +59,6 @@ export class CheckboxInput extends Component<Props, State> {
               Best Seller
             </label>
           </div>
-          <div className="invalid-feedback">One or more checkboxes needed.</div>
         </div>
       </>
     );
