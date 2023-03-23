@@ -104,6 +104,8 @@ export class Form extends React.Component<Props, State> {
   }
 
   onReset(e: React.FormEvent<HTMLFormElement>) {
+    this.form.file.current!.value = '';
+
     this.setState({
       validation: {
         file: true,

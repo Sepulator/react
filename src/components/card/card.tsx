@@ -9,7 +9,7 @@ export class Card extends React.Component<Product, never> {
       <div className="col-lg-3 col-md-6 mb-4">
         <div className="card">
           <div className="bg-image hover-zoom ripple" data-mdb-ripple-color="light">
-            <img src={thumbnail} className="w-100" style={{ height: '300px' }} alt={title} />
+            <img src={thumbnail} className="w-auto" style={{ height: '300px' }} alt={title} />
             <a href="#!">
               <div className="mask">
                 <div className="d-flex justify-content-start align-items-end h-100">

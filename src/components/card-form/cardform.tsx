@@ -13,9 +13,9 @@ export class CardForm extends React.Component<IFormResult> {
   render() {
     const { file, text, date, select, radio, checkbox } = this.props;
     const checkboxList = checkbox.map((el, index) => (
-      <p className="mb-2" key={index}>
-        {el}
-      </p>
+      <span className="mb-2" key={index}>
+        {index === checkbox.length - 1 ? `${el}` : `${el},  `}
+      </span>
     ));
     return (
       <div className="col-lg-3 col-md-6 mb-4">
