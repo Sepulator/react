@@ -2,16 +2,12 @@ import { CardForm, IFormResult } from '@/components/card-form/cardform';
 import { Form } from '@/components/form/form';
 import React from 'react';
 
-type Props = {
-  className?: string;
-};
-
 type State = {
   cardList: IFormResult[];
 };
 
-export class FormPage extends React.Component<Props, State> {
-  constructor(props: Props) {
+export class FormPage extends React.Component<Record<string, never>, State> {
+  constructor(props: never) {
     super(props);
     this.state = {
       cardList: [],

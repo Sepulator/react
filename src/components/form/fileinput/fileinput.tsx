@@ -25,7 +25,8 @@ export class FileInput extends Component<Props, State> {
   }
 
   render() {
-    const isImage = this.props.file.current?.value;
+    const isImage =
+      this.props.file.current?.value && this.props.file.current?.files![0].type.includes('image');
     return (
       <div
         className="card-header border-0 text-center p-5"

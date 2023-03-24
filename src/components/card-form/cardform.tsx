@@ -23,7 +23,7 @@ export class CardForm extends React.Component<IFormResult> {
           <div className="bg-image hover-zoom ripple" data-mdb-ripple-color="light">
             <img
               src={URL.createObjectURL(file)}
-              className="w-100"
+              className=""
               style={{ height: '300px', width: '300px' }}
               alt={text}
             />

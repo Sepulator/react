@@ -21,7 +21,7 @@ export class TextInput extends Component<Props> {
           placeholder="Enter title of product"
         />
         <div className="invalid-feedback">
-          Title contain from 3 to 12 character, latin letters or numbers .
+          Title contains from 3 to 12 character, latin letters or numbers .
         </div>
       </div>
     );

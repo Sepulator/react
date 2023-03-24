@@ -29,7 +29,7 @@ export class CheckboxInput extends Component<Props> {
             <label className="form-check-label" htmlFor="exclusive">
               Very exclusive
             </label>
-            <div className="invalid-feedback">Choose desired discount.</div>
+            <div className="invalid-feedback">Choose at least one checkbox.</div>
           </div>
 
           <div className="form-check form-check-inline">
