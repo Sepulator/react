@@ -53,6 +53,7 @@ export class FileInput extends Component<Props, State> {
             name="file"
             className={`form-control d-none ${this.props.validate ? '' : 'is-invalid'}`}
             id="file"
+            data-testid="file-input"
             accept=".png, .jpg, .jpeg"
             onChange={(e) => this.onChange(e)}
           />

@@ -125,6 +125,7 @@ export class Form extends React.Component<Props, State> {
           <div className="card">
             <form
               action=""
+              name="form"
               ref={this.form.form}
               onSubmit={(e) => this.onSubmit(e)}
               onReset={(e) => this.onReset(e)}

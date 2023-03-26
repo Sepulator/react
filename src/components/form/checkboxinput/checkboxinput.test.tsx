@@ -1,17 +1,17 @@
 import React from 'react';
 
 import { describe, it } from 'vitest';
-import { fireEvent, render, screen, waitFor } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import { CheckboxInput, ICheckboxList } from './checkboxinput';
 
-describe('Text input component', () => {
+describe('Checkbox input component', () => {
   const ref = {
     exclusive: React.createRef(),
     arrival: React.createRef(),
     best: React.createRef(),
   };
 
-  it('Render text input', () => {
+  it('Render checkbox input', () => {
     render(<CheckboxInput checkbox={ref as ICheckboxList} validate={true} />);
     expect(screen.getAllByRole('checkbox').length).toBe(3);
   });
