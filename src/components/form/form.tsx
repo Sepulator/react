@@ -97,7 +97,7 @@ export class Form extends React.Component<Props, State> {
     await this.validateInputs();
     const validForm = Object.values(this.state.validation).every((el) => el);
     if (validForm) {
-      const result = await gatherFormInputs(this.form);
+      const result = gatherFormInputs(this.form);
       this.props.generateCards(result);
       this.form.form.current?.reset();
     }

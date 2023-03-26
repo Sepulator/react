@@ -17,6 +17,7 @@ export class DateInput extends Component<Props> {
           type="date"
           name="date"
           id="date"
+          data-testid="date-input"
           className={`form-control  ${this.props.validate ? '' : 'is-invalid'}`}
         />
         <div className="invalid-feedback">Select manufacture date below current one.</div>

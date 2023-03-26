@@ -5,36 +5,27 @@ import { selectOptions } from '@/components/form/selectinput/selectinut';
 
 export const validateFile = (file: React.RefObject<HTMLInputElement>) => {
   const { current } = file;
-  if (current === null) return false;
-  const { files } = current;
-  if (files && files[0] && files[0].type.split('/')[0] === 'image') return true;
+  if (current && current.files && current.files[0].type.split('/')[0] === 'image') return true;
   return false;
 };
 
 export const validateText = (text: React.RefObject<HTMLInputElement>) => {
-  const regexp = /^[a-zA-Z0-9-_.]{3,12}$/;
+  const regexp = /^[a-zA-Z0-9]{3,12}$/;
   const { current } = text;
-  if (current === null) return false;
-  const { value } = current;
-  if (regexp.test(value)) return true;
+  if (current && current.value && regexp.test(current.value)) return true;
+
   return false;
 };
 
 export const validateDate = (date: React.RefObject<HTMLInputElement>) => {
   const { current } = date;
-  if (current === null) return false;
-  const { value } = current;
-  if (value === null) return false;
-  if (Date.parse(value) <= Date.now()) return true;
+  if (current && current.value && Date.parse(current.value) <= Date.now()) return true;
   return false;
 };
 
 export const validateSelect = (select: React.RefObject<HTMLSelectElement>) => {
   const { current } = select;
-  if (current === null) return false;
-  const { value } = current;
-  if (value === null) return false;
-  if (selectOptions.includes(value)) return true;
+  if (current && current.value && selectOptions.includes(current.value)) return true;
   return false;
 };
 
@@ -50,7 +41,7 @@ export const validateCheckbox = (checkbox: ICheckboxList) => {
   return false;
 };
 
-export const gatherFormInputs = async (form: IFormInputs) => {
+export const gatherFormInputs = (form: IFormInputs) => {
   const file = form.file.current!.files![0];
   const text = form.text.current!.value;
   const date = form.date.current!.value;
