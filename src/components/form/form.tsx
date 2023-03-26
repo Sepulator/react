@@ -16,6 +16,7 @@ import { IRadioList, RadioInput } from './radioinput/radioinput';
 import { SelectInput } from './selectinput/selectinut';
 import { TextInput } from './textinput/textinput';
 import { IFormResult } from '../card-form/cardform';
+import { Toast } from '../toast/toast';
 
 interface Props {
   className?: string;
@@ -43,6 +44,7 @@ interface IValidInputs {
 
 interface State {
   validation: IValidInputs;
+  showToast: boolean;
 }
 
 export class Form extends React.Component<Props, State> {
@@ -75,6 +77,7 @@ export class Form extends React.Component<Props, State> {
         radio: true,
         checkbox: true,
       },
+      showToast: false,
     };
   }
 
@@ -100,6 +103,7 @@ export class Form extends React.Component<Props, State> {
       const result = gatherFormInputs(this.form);
       this.props.generateCards(result);
       this.form.form.current?.reset();
+      this.setToastTimer();
     }
   }
 
@@ -118,43 +122,56 @@ export class Form extends React.Component<Props, State> {
     });
   }
 
+  setToastTimer() {
+    this.setState({ showToast: true });
+    setTimeout(() => {
+      this.setState({ showToast: false });
+    }, 2500);
+  }
+
   render() {
     return (
-      <div className="d-flex justify-content-center my-3">
-        <div className="col-lg-5">
-          <div className="card">
-            <form
-              action=""
-              name="form"
-              ref={this.form.form}
-              onSubmit={(e) => this.onSubmit(e)}
-              onReset={(e) => this.onReset(e)}
-            >
-              <FileInput file={this.form.file} validate={this.state.validation.file} />
-              <div className="card-body">
-                <div className="row">
-                  <TextInput text={this.form.text} validate={this.state.validation.text} />
-                  <DateInput date={this.form.date} validate={this.state.validation.date} />
-                  <SelectInput select={this.form.select} validate={this.state.validation.select} />
-                  <RadioInput radio={this.form.radio} validate={this.state.validation.radio} />
-                  <CheckboxInput
-                    checkbox={this.form.checkbox}
-                    validate={this.state.validation.checkbox}
-                  />
+      <>
+        <div className="d-flex justify-content-center my-3">
+          <Toast showToast={this.state.showToast} />
+          <div className="col-lg-5">
+            <div className="card">
+              <form
+                action=""
+                name="form"
+                ref={this.form.form}
+                onSubmit={(e) => this.onSubmit(e)}
+                onReset={(e) => this.onReset(e)}
+              >
+                <FileInput file={this.form.file} validate={this.state.validation.file} />
+                <div className="card-body">
+                  <div className="row">
+                    <TextInput text={this.form.text} validate={this.state.validation.text} />
+                    <DateInput date={this.form.date} validate={this.state.validation.date} />
+                    <SelectInput
+                      select={this.form.select}
+                      validate={this.state.validation.select}
+                    />
+                    <RadioInput radio={this.form.radio} validate={this.state.validation.radio} />
+                    <CheckboxInput
+                      checkbox={this.form.checkbox}
+                      validate={this.state.validation.checkbox}
+                    />
+                  </div>
                 </div>
-              </div>
-              <div className="d-flex justify-content-center card-footer border-0 bg-light py-3 text-end">
-                <button type="submit" className="btn btn-primary btn-rounded me-1">
-                  Submit
-                </button>
-                <button type="reset" className="btn btn-warning btn-rounded ms-1">
-                  Reset
-                </button>
-              </div>
-            </form>
+                <div className="d-flex justify-content-center card-footer border-0 bg-light py-3 text-end">
+                  <button type="submit" className="btn btn-primary btn-rounded me-1">
+                    Submit
+                  </button>
+                  <button type="reset" className="btn btn-warning btn-rounded ms-1">
+                    Reset
+                  </button>
+                </div>
+              </form>
+            </div>
           </div>
         </div>
-      </div>
+      </>
     );
   }
 }
