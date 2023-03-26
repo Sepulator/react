@@ -5,7 +5,13 @@ import { selectOptions } from '@/components/form/selectinput/selectinut';
 
 export const validateFile = (file: React.RefObject<HTMLInputElement>) => {
   const { current } = file;
-  if (current && current.files && current.files[0].type.split('/')[0] === 'image') return true;
+  if (
+    current &&
+    current.files &&
+    current.files.length &&
+    current.files[0].type.split('/')[0] === 'image'
+  )
+    return true;
   return false;
 };
 
