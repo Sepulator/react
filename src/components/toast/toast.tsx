@@ -8,7 +8,7 @@ export class Toast extends Component<Props> {
   render() {
     return (
       <div
-        className={`toast fade text-white bg-info position-absolute top-5 end-0 ${
+        className={`toast fade text-white text-center bg-info ${
           this.props.showToast ? 'show' : ''
         }`}
         role="alert"

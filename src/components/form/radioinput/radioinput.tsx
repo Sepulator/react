@@ -1,24 +1,21 @@
+import { FieldErrorsImpl, UseFormRegister } from 'react-hook-form/dist/types';
+import { IFormInputs } from '../form';
+
 interface Props {
-  radio: IRadioList;
-  validate: boolean;
+  register: UseFormRegister<IFormInputs>;
+  errors: FieldErrorsImpl<IFormInputs>;
 }
 
-export interface IRadioList {
-  promo1: React.RefObject<HTMLInputElement>;
-  promo2: React.RefObject<HTMLInputElement>;
-  promo3: React.RefObject<HTMLInputElement>;
-}
-
-export const RadioInput = ({ radio, validate }: Props) => {
+export const RadioInput = ({ register, errors }: Props) => {
   return (
     <>
       <label className="form-label">Select promo discount</label>
       <div>
         <div className="form-check form-check-inline">
           <input
-            ref={radio.promo1}
+            {...register('radio', { required: 'Choose desired discount.' })}
             type="radio"
-            className={`form-check-input  ${validate ? '' : 'is-invalid'}`}
+            className={`form-check-input  ${errors.radio ? 'is-invalid' : ''}`}
             id="promo1"
             name="radio"
             value="5% promo"
@@ -30,9 +27,9 @@ export const RadioInput = ({ radio, validate }: Props) => {
         </div>
         <div className="form-check form-check-inline">
           <input
-            ref={radio.promo2}
+            {...register('radio', { required: 'Choose desired discount.' })}
             type="radio"
-            className={`form-check-input  ${validate ? '' : 'is-invalid'}`}
+            className={`form-check-input  ${errors.radio ? 'is-invalid' : ''}`}
             id="promo2"
             name="radio"
             value="10% promo"
@@ -43,9 +40,9 @@ export const RadioInput = ({ radio, validate }: Props) => {
         </div>
         <div className="form-check form-check-inline">
           <input
-            ref={radio.promo3}
+            {...register('radio', { required: 'Choose desired discount.' })}
             type="radio"
-            className={`form-check-input  ${validate ? '' : 'is-invalid'}`}
+            className={`form-check-input  ${errors.radio ? 'is-invalid' : ''}`}
             id="promo3"
             name="radio"
             value="15% promo"
