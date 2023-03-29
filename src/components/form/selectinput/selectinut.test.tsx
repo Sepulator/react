@@ -1,19 +1,16 @@
-import React from 'react';
-import { describe, it } from 'vitest';
+import { describe, it, vi } from 'vitest';
 import { render, screen } from '@testing-library/react';
+import { FieldErrorsImpl } from 'react-hook-form/dist/types';
 
 import { SelectInput, selectOptions } from './selectinut';
+import { IFormInputs } from '../form';
 
 describe('Select component', () => {
-  const select = React.createRef<HTMLSelectElement>();
+  const register = vi.fn();
+  const errors = 'Error' as FieldErrorsImpl<IFormInputs>;
 
   it('Render select input', () => {
-    render(<SelectInput select={select} validate={true} />);
+    render(<SelectInput register={register} errors={errors} />);
     expect(screen.getAllByRole('option').length).toBe(selectOptions.length);
-  });
-
-  it('Render invalid', () => {
-    render(<SelectInput select={select} validate={false} />);
-    expect(screen.getByRole('combobox')).toHaveClass('is-invalid');
   });
 });

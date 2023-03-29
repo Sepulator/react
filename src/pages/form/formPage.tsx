@@ -1,34 +1,22 @@
-import { CardForm, IFormResult } from '@/components/card-form/cardform';
+import { useState } from 'react';
+
 import { Form } from '@/components/form/form';
-import React from 'react';
+import { CardForm, IFormResult } from '@/components/card-form/cardform';
 
-type State = {
-  cardList: IFormResult[];
-};
+export const FormPage = () => {
+  const [cardList, setCardList] = useState<IFormResult[]>([]);
 
-export class FormPage extends React.Component<Record<string, never>, State> {
-  constructor(props: never) {
-    super(props);
-    this.state = {
-      cardList: [],
-    };
-  }
-
-  generateCards = (card: IFormResult) => {
-    this.setState({
-      cardList: [...this.state.cardList, card],
-    });
+  const generateCards = (card: IFormResult) => {
+    setCardList([...cardList, card]);
   };
 
-  render() {
-    const items = this.state.cardList.map((el, index) => <CardForm {...el} key={index} />);
-    return (
-      <>
-        <Form generateCards={this.generateCards} />
-        <div className="text-center mb-2">
-          <div className="row">{items}</div>
-        </div>
-      </>
-    );
-  }
-}
+  const items = cardList.map((el, index) => <CardForm {...el} key={index} />);
+  return (
+    <>
+      <Form generateCards={generateCards} />
+      <div className="text-center mb-2">
+        <div className="row">{items}</div>
+      </div>
+    </>
+  );
+};

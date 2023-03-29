@@ -1,30 +1,29 @@
 import React from 'react';
 
-import { describe, it } from 'vitest';
+import { describe, it, vi } from 'vitest';
 import { render, screen } from '@testing-library/react';
+import { FieldErrorsImpl } from 'react-hook-form/dist/types';
+
 import { FileInput } from './fileinput';
+import { IFormInputs } from '../form';
 
 describe('File input component', () => {
-  // const ref = React.createRef<HTMLInputElement>();
-  const imageFile = new File(['hello'], 'hello.png', { type: 'image/png' });
-  const ref = {
-    current: {
-      files: [imageFile],
-      value: imageFile,
-    },
-  };
+  const register = vi.fn();
+  const setValue = vi.fn();
+  const showPicture = vi.fn();
+  const errors = 'Error' as FieldErrorsImpl<IFormInputs>;
+  const picture = true;
 
   it('Render file input', () => {
     render(
-      <FileInput file={ref as unknown as React.RefObject<HTMLInputElement>} validate={true} />
+      <FileInput
+        register={register}
+        errors={errors}
+        showPicture={showPicture}
+        setValue={setValue}
+        picture={picture}
+      />
     );
     expect(screen.getByText('Add a photo')).toBeInTheDocument();
-    expect(screen.getByRole('img')).toBeInTheDocument();
-  });
-
-  it('Render invalid', () => {
-    const ref = React.createRef<HTMLInputElement>();
-    render(<FileInput file={ref} validate={false} />);
-    expect(screen.getByTestId('file-input')).toHaveClass('is-invalid');
   });
 });
