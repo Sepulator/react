@@ -1,11 +1,10 @@
 import { useEffect, useState } from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useLocation } from 'react-router-dom';
 
 import { Paths } from '@/data/type';
 
 interface IHeaderProps {
   data: Paths;
-  onclick: (title: string) => void;
 }
 
 const paths: Paths = {
@@ -15,19 +14,15 @@ const paths: Paths = {
 };
 
 export const Header = () => {
-  const { pathname } = window.location;
+  const { pathname } = useLocation();
   const [title, setTitle] = useState<string>(paths[pathname]);
 
   useEffect(() => {
-    const { pathname } = window.location;
-    if (paths[pathname]) {
-      setTitle(paths[pathname]);
+    const title = paths[pathname];
+    if (title) {
+      setTitle(title);
     } else setTitle('Error Page');
-  }, []);
-
-  const onClick = (title: string) => {
-    setTitle(title);
-  };
+  }, [pathname]);
 
   return (
     <header className="navbar navbar-expand navbar-light bg-white">
@@ -36,7 +31,7 @@ export const Header = () => {
           <i className="fab fa-react fa-2x"></i>
         </a>
         <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-          <HeaderList data={paths} onclick={onClick} />
+          <HeaderList data={paths} />
         </ul>
         <span className="fs-4 nav-title">{title}</span>
       </div>
@@ -44,7 +39,7 @@ export const Header = () => {
   );
 };
 
-export const HeaderList = ({ data, onclick }: IHeaderProps) => {
+export const HeaderList = ({ data }: IHeaderProps) => {
   return (
     <>
       {Object.keys(data).map((key) => (
@@ -57,7 +52,6 @@ export const HeaderList = ({ data, onclick }: IHeaderProps) => {
                 color: isActive ? 'white' : '',
               };
             }}
-            onClick={() => onclick(paths[key])}
           >
             {paths[key].split(' ')[0]}
           </NavLink>
