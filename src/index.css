@@ -1,0 +1,40 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap');
+@import './styles/mdb.min.css';
+@import './styles/all.min.css';
+
+:root {
+  --bg-color: #607d8b;
+  --bg-color-hover: rgba(251, 251, 251, 0.15);
+}
+
+#rootId {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.bg-color {
+  background-color: var(--bg-color);
+}
+
+.bg-color-hover {
+  background-color: var(--bg-color-hover);
+}
+
+.search-input {
+  max-width: 12rem;
+}
+
+.nav-item > .active {
+  background-color: var(--bg-color);
+}
+
+.nav-title {
+  transform: translateX(-100%);
+}
+
+@media (max-width: 576px){
+  .nav-title {
+    transform: translateX(0);
+  }
+}
