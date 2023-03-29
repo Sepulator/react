@@ -7,6 +7,10 @@
   --bg-color-hover: rgba(251, 251, 251, 0.15);
 }
 
+body {
+  background-color: hsl(0, 0%, 95%);
+}
+
 #rootId {
   min-height: 100vh;
   display: flex;
@@ -33,7 +37,7 @@
   transform: translateX(-100%);
 }
 
-@media (max-width: 576px){
+@media (max-width: 576px) {
   .nav-title {
     transform: translateX(0);
   }

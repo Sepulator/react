@@ -6,12 +6,8 @@ type State = {
   text: string;
 };
 
-type Props = {
-  className?: string;
-};
-
-export class Home extends React.Component<Props, State> {
-  constructor(props: Props) {
+export class Home extends React.Component<Record<string, never>, State> {
+  constructor(props: never) {
     super(props);
     this.state = {
       text: '',
