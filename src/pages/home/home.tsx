@@ -1,8 +1,9 @@
-import { useLocalStorage } from '@/hooks/useLocalStorage';
 import { ChangeEvent } from 'react';
 
 import { Card } from '../../components/card/card';
 import products from '../../data/products.json';
+
+import { useLocalStorage } from '@/hooks/useLocalStorage';
 
 export const Home = () => {
   const [text, setText] = useLocalStorage<string>('text', '');
