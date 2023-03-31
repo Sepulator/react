@@ -1,7 +1,7 @@
 import { describe, it } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import { Card } from './card';
-import { Product } from '../../data/type';
+import { Product } from '../../types/data';
 
 const cardItem: Product = {
   id: 11,

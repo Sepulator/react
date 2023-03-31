@@ -1,17 +1,24 @@
 import { useLocalStorage } from '@/hooks/useLocalStorage';
-import { ChangeEvent } from 'react';
+import { ChangeEvent, useState } from 'react';
 
 import { Card } from '../../components/card/card';
-import products from '../../data/products.json';
 import { Spinner } from '@/components/icons';
+import { useFetch } from '@/hooks/useFetch';
+
+const search = `/products/search?q=`;
+const limit = 12;
 
 export const Home = () => {
   const [text, setText] = useLocalStorage<string>('text', '');
-
-  const items = products.map((item) => <Card {...item} key={item.id} />);
+  const [page, setPage] = useState(0);
+  const [searchQuery, setSearchQuery] = useState<string>(
+    `${search}${text}&limit=${limit}&skip=${page * limit}`
+  );
+  const { data, total, isPending, error } = useFetch(searchQuery);
+  const items = data?.products.map((item) => <Card {...item} key={item.id} />);
 
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+    setSearchQuery(`${search}${text}&limit=${limit}&skip=${page * limit}`);
   };
 
   return (
@@ -32,30 +39,39 @@ export const Home = () => {
           </button>
         </form>
       </nav>
-      <div className="text-center mb-2">
-        <div className="row">{items}</div>
-      </div>
-      <Spinner />
+      {error && <div>{error}</div>}
+      {isPending && (
+        <div className="modal modal-additional">
+          <Spinner className="modal-dialog modal-dialog-centered" />
+        </div>
+      )}
 
-      <nav aria-label="pagination" className="d-flex justify-content-center mt-2">
-        <ul className="pagination">
-          <li className="page-item ">
-            <button className="page-link">Previous</button>
-          </li>
-          <li className="page-item ">
-            <button className="page-link">1</button>
-          </li>
-          <li className="page-item active" aria-current="page">
-            <button className="page-link">2</button>
-          </li>
-          <li className="page-item">
-            <button className="page-link">3</button>
-          </li>
-          <li className="page-item">
-            <button className="page-link">Next</button>
-          </li>
-        </ul>
-      </nav>
+      <div className="text-center mb-2">
+        <div className="row">
+          {items?.length ? items : <h3 className="center-content">Nothing to display</h3>}
+        </div>
+      </div>
+      {Boolean(items?.length) && (
+        <nav aria-label="pagination" className="d-flex justify-content-center mt-2">
+          <ul className="pagination">
+            <li className="page-item ">
+              <button className="page-link">Previous</button>
+            </li>
+            <li className="page-item ">
+              <button className="page-link">1</button>
+            </li>
+            <li className="page-item active" aria-current="page">
+              <button className="page-link">2</button>
+            </li>
+            <li className="page-item">
+              <button className="page-link">3</button>
+            </li>
+            <li className="page-item">
+              <button className="page-link">Next</button>
+            </li>
+          </ul>
+        </nav>
+      )}
     </>
   );
 };

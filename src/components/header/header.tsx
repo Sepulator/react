@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
 
-import { Paths } from '@/data/type';
+import { Paths } from '@/types/data';
 
 interface IHeaderProps {
   data: Paths;
