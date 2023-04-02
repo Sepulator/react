@@ -1,7 +1,6 @@
-import { useEffect, useRef, useState } from 'react';
+import { useState } from 'react';
 
 export function useLocalStorage<T>(key: string, defaultValue: T): [T, (newValue: T) => void] {
-  const inputRef = useRef<T>();
   const [storedValue, setStoredValue] = useState<T>(() => {
     try {
       const value = window.localStorage.getItem(key);
@@ -16,17 +15,12 @@ export function useLocalStorage<T>(key: string, defaultValue: T): [T, (newValue:
     }
   });
 
-  useEffect(() => {
-    inputRef.current = storedValue;
-  }, [storedValue]);
-
-  useEffect(() => {
-    return () => {
-      window.localStorage.setItem(key, JSON.stringify(inputRef.current));
-    };
-  }, [key]);
-
   const setValue = (newValue: T) => {
+    try {
+      window.localStorage.setItem(key, JSON.stringify(newValue));
+    } catch (err) {
+      console.log('Something went wrong');
+    }
     setStoredValue(newValue);
   };
 

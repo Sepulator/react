@@ -1,25 +1,45 @@
 import { useLocalStorage } from '@/hooks/useLocalStorage';
 import { ChangeEvent, useState } from 'react';
 
-import { Card } from '../../components/card/card';
+import { Card } from '@/components/card/card';
 import { Spinner } from '@/components/icons';
 import { useFetch } from '@/hooks/useFetch';
+import { Product } from '@/types/data';
+import { CardExpanded } from '@/components/card-expanded/card-expanded';
 
 const search = `/products/search?q=`;
-const limit = 12;
+const limit = 24;
+const skip = 0;
 
 export const Home = () => {
   const [text, setText] = useLocalStorage<string>('text', '');
-  const [page, setPage] = useState(0);
+  const [showModal, setShowModal] = useState(false);
+  const [isClicked, setIsClicked] = useState<Product | null>(null);
   const [searchQuery, setSearchQuery] = useState<string>(
-    `${search}${text}&limit=${limit}&skip=${page * limit}`
+    `${search}${text}&limit=${limit}&skip=${skip}`
   );
-  const { data, total, isPending, error } = useFetch(searchQuery);
-  const items = data?.products.map((item) => <Card {...item} key={item.id} />);
+  const { data, isPending, error } = useFetch(searchQuery);
 
-  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    setSearchQuery(`${search}${text}&limit=${limit}&skip=${page * limit}`);
+  const onSubmit = () => {
+    setSearchQuery(`${search}${text}&limit=${limit}&skip=${skip}`);
   };
+
+  const handleOpen = (id: number) => {
+    const item = data?.products.find((el) => el.id === id);
+    if (item) {
+      setIsClicked(item);
+      setShowModal(true);
+    }
+  };
+
+  const handleClose = () => {
+    setShowModal(false);
+    setIsClicked(null);
+  };
+
+  const items = data?.products.map((item) => (
+    <Card data={item} key={item.id} handleOpen={handleOpen} />
+  ));
 
   return (
     <>
@@ -39,7 +59,9 @@ export const Home = () => {
           </button>
         </form>
       </nav>
+
       {error && <div>{error}</div>}
+
       {isPending && (
         <div className="modal modal-additional">
           <Spinner className="modal-dialog modal-dialog-centered" />
@@ -47,31 +69,14 @@ export const Home = () => {
       )}
 
       <div className="text-center mb-2">
-        <div className="row">
-          {items?.length ? items : <h3 className="center-content">Nothing to display</h3>}
-        </div>
+        <div className="row">{items}</div>
       </div>
-      {Boolean(items?.length) && (
-        <nav aria-label="pagination" className="d-flex justify-content-center mt-2">
-          <ul className="pagination">
-            <li className="page-item ">
-              <button className="page-link">Previous</button>
-            </li>
-            <li className="page-item ">
-              <button className="page-link">1</button>
-            </li>
-            <li className="page-item active" aria-current="page">
-              <button className="page-link">2</button>
-            </li>
-            <li className="page-item">
-              <button className="page-link">3</button>
-            </li>
-            <li className="page-item">
-              <button className="page-link">Next</button>
-            </li>
-          </ul>
-        </nav>
+
+      {!isPending && !Boolean(items?.length) && (
+        <h3 className="center-content">Nothing to display</h3>
       )}
+
+      {showModal && isClicked && <CardExpanded data={isClicked} handleClose={handleClose} />}
     </>
   );
 };
