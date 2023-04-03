@@ -1,4 +1,4 @@
-import { describe, it } from 'vitest';
+import { describe, it, vi } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import { Card } from './card';
 import { Product } from '../../types/data';
@@ -25,7 +25,8 @@ const cardItem: Product = {
 
 describe('Error', () => {
   it('Renders error page', () => {
-    render(<Card {...cardItem} />);
+    const handleOpen = vi.fn();
+    render(<Card data={cardItem} handleOpen={handleOpen} />);
     expect(
       screen.getByRole('heading', {
         level: 6,
