@@ -1,7 +1,8 @@
 import { describe, it, vi } from 'vitest';
 import { render, screen } from '@testing-library/react';
-import { Card } from './card';
+
 import { Product } from '../../types/data';
+import { CardExpanded } from './card-expanded';
 
 const cardItem: Product = {
   id: 11,
@@ -24,9 +25,9 @@ const cardItem: Product = {
 };
 
 describe('Error', () => {
-  it('Renders card', () => {
-    const handleOpen = vi.fn();
-    render(<Card data={cardItem} handleOpen={handleOpen} />);
+  it('Renders card expanded', () => {
+    const handleClose = vi.fn();
+    render(<CardExpanded data={cardItem} handleClose={handleClose} />);
     expect(
       screen.getByRole('heading', {
         level: 6,

@@ -1,16 +1,24 @@
 import { describe, it } from 'vitest';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
-import { Home } from './home';
-import products from '../../data/products.json';
 
-describe('Home', () => {
-  it('Renders home page with card list', () => {
+import { Home } from './home';
+import { server } from '@/mocks/server';
+
+beforeAll(() => server.listen());
+afterEach(() => server.resetHandlers());
+afterAll(() => server.close());
+
+describe('Home', async () => {
+  it('Renders home page with one card from api', async () => {
     render(<Home />);
-    expect(
-      screen.getAllByRole('heading', {
-        level: 6,
-      })
-    ).toHaveLength(products.length);
+
+    await waitFor(() =>
+      expect(
+        screen.getAllByRole('heading', {
+          level: 6,
+        })
+      ).toHaveLength(1)
+    );
   });
 
   it('Change input value', () => {

@@ -14,7 +14,7 @@ export const CardForm = ({ file, text, date, select, radio, checkbox }: IFormRes
     </span>
   ));
   return (
-    <div className="col-lg-3 col-md-6 mb-4">
+    <div className="col-lg-3 col-md-6 mb-4" data-testid="card-form">
       <div className="card">
         <div className="bg-image hover-zoom ripple" data-mdb-ripple-color="light">
           <img
