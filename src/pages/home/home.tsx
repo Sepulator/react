@@ -14,27 +14,30 @@ const skip = 0;
 export const Home = () => {
   const [text, setText] = useLocalStorage<string>('text', '');
   const [showModal, setShowModal] = useState(false);
-  const [isClicked, setIsClicked] = useState<Product | null>(null);
+  const [isClicked, setIsClicked] = useState<number>(1);
   const [searchQuery, setSearchQuery] = useState<string>(
     `${search}${text}&limit=${limit}&skip=${skip}`
   );
   const { data, isPending, error } = useFetch(searchQuery);
+  const {
+    data: product,
+    isPending: isPendingCard,
+    error: errorCard,
+  } = useFetch(`/products/${isClicked}`);
 
   const onSubmit = () => {
     setSearchQuery(`${search}${text}&limit=${limit}&skip=${skip}`);
   };
 
   const handleOpen = (id: number) => {
-    const item = data?.products.find((el) => el.id === id);
-    if (item) {
-      setIsClicked(item);
+    if (id) {
+      setIsClicked(id);
       setShowModal(true);
     }
   };
 
   const handleClose = () => {
     setShowModal(false);
-    setIsClicked(null);
   };
 
   const items = data?.products.map((item) => (
@@ -76,7 +79,14 @@ export const Home = () => {
         <h3 className="center-content">Nothing to display</h3>
       )}
 
-      {showModal && isClicked && <CardExpanded data={isClicked} handleClose={handleClose} />}
+      {showModal && isClicked && (
+        <CardExpanded
+          data={product as unknown as Product | null}
+          isPending={isPendingCard}
+          error={errorCard}
+          handleClose={handleClose}
+        />
+      )}
     </>
   );
 };

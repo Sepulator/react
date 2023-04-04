@@ -13,7 +13,7 @@ export const useFetch = (query: string, url = 'https://dummyjson.com') => {
     setTimeout(async () => {
       try {
         const response = await fetch(`${url}${query}`, { signal: abortCont.signal });
-        const result = (await response.json()) as ProductApi;
+        const result = await response.json();
         if (result.total) setTotal(result.total);
         setData(result);
         setIsPending(false);
