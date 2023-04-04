@@ -88,10 +88,18 @@ export const Form = ({ generateCards }: Props) => {
                   <Toast showToast={toast} />
                 ) : (
                   <>
-                    <button type="submit" className="btn btn-primary btn-rounded me-1">
+                    <button
+                      type="submit"
+                      className="btn btn-primary btn-rounded me-1"
+                      data-testid="submit-button"
+                    >
                       Submit
                     </button>
-                    <button type="reset" className="btn btn-warning btn-rounded ms-1">
+                    <button
+                      type="reset"
+                      className="btn btn-warning btn-rounded ms-1"
+                      data-testid="reset-button"
+                    >
                       Reset
                     </button>
                   </>
