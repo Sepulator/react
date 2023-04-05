@@ -1,11 +1,8 @@
 import { rest } from 'msw';
 
-const query = '';
-const limit = 1;
-const API_URL = `https://dummyjson.com/products/search?q=${query}&limit=${limit}&skip=0`;
-
 export const handlers = [
-  rest.get(API_URL, (req, res, ctx) => {
+  rest.get(`https://dummyjson.com/products/search`, (req, res, ctx) => {
+    // const query = req.url.searchParams.getAll('search');
     return res(
       ctx.json({
         products: [
@@ -32,6 +29,31 @@ export const handlers = [
         total: 100,
         skip: 0,
         limit: 1,
+      })
+    );
+  }),
+
+  rest.get(`https://dummyjson.com/products/:id`, (req, res, ctx) => {
+    const { id } = req.params;
+    return res(
+      ctx.json({
+        id: id,
+        title: 'iPhone 9',
+        description: 'An apple mobile which is nothing like apple',
+        price: 549,
+        discountPercentage: 12.96,
+        rating: 4.69,
+        stock: 94,
+        brand: 'Apple',
+        category: 'smartphones',
+        thumbnail: 'https://i.dummyjson.com/data/products/1/thumbnail.jpg',
+        images: [
+          'https://i.dummyjson.com/data/products/1/1.jpg',
+          'https://i.dummyjson.com/data/products/1/2.jpg',
+          'https://i.dummyjson.com/data/products/1/3.jpg',
+          'https://i.dummyjson.com/data/products/1/4.jpg',
+          'https://i.dummyjson.com/data/products/1/thumbnail.jpg',
+        ],
       })
     );
   }),

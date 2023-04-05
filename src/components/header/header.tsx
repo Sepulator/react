@@ -15,7 +15,7 @@ const paths: Paths = {
 
 export const Header = () => {
   const { pathname } = useLocation();
-  const [title, setTitle] = useState<string>(paths[pathname]);
+  const [title, setTitle] = useState(paths[pathname]);
 
   useEffect(() => {
     const title = paths[pathname];

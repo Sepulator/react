@@ -12,12 +12,10 @@ const limit = 24;
 const skip = 0;
 
 export const Home = () => {
-  const [text, setText] = useLocalStorage<string>('text', '');
+  const [text, setText] = useLocalStorage('text', '');
   const [showModal, setShowModal] = useState(false);
-  const [isClicked, setIsClicked] = useState<number>(1);
-  const [searchQuery, setSearchQuery] = useState<string>(
-    `${search}${text}&limit=${limit}&skip=${skip}`
-  );
+  const [isClicked, setIsClicked] = useState(1);
+  const [searchQuery, setSearchQuery] = useState(`${search}${text}&limit=${limit}&skip=${skip}`);
   const { data, isPending, error } = useFetch(searchQuery);
   const {
     data: product,
