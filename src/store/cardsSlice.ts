@@ -1,19 +1,32 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 
-import { IFormResult } from '@/components/card-form/cardform';
+export interface ICardForm {
+  image: string;
+  text: string;
+  date: string;
+  select: string;
+  radio: string;
+  checkbox: string[];
+}
 
 export interface CardState {
-  items: { [id: string]: IFormResult };
+  cards: ICardForm[];
 }
 
 const initialState: CardState = {
-  items: {},
+  cards: [],
 };
 
 const cardsSlice = createSlice({
   name: 'cards',
   initialState,
-  reducers: {},
+  reducers: {
+    addCard(state, action: PayloadAction<ICardForm>) {
+      const card = action.payload;
+      state.cards.push(card);
+    },
+  },
 });
 
+export const { addCard } = cardsSlice.actions;
 export default cardsSlice.reducer;

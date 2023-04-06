@@ -1,8 +1,17 @@
-import { ProductApi } from '@/types/data';
+import { useAppDispatch } from '@/store/hooks';
 import { useEffect, useState } from 'react';
 
-export const useFetch = (query: string, url = 'https://dummyjson.com') => {
-  const [data, setData] = useState<ProductApi | null>(null);
+import { receivedProducts } from '@/store/producstSlice';
+import { ProductApi } from '@/types/data';
+
+// const search = `/products/search?q=`;
+const limit = 24;
+const skip = 0;
+const search = `https://dummyjson.com/products?limit=${limit}&skip=${skip}`;
+
+export const useFetch = (query?: string, url = 'https://dummyjson.com') => {
+  //const [data, setData] = useState<ProductApi | null>(null);
+  const dispatch = useAppDispatch();
   const [isPending, setIsPending] = useState<boolean>(true);
   const [error, setError] = useState<string>('');
   const [total, setTotal] = useState(0);
@@ -12,10 +21,13 @@ export const useFetch = (query: string, url = 'https://dummyjson.com') => {
     setIsPending(true);
     setTimeout(async () => {
       try {
-        const response = await fetch(`${url}${query}`, { signal: abortCont.signal });
-        const result = await response.json();
+        const response = await fetch(search, {
+          signal: abortCont.signal,
+        });
+        const result: ProductApi = await response.json();
         if (result.total) setTotal(result.total);
-        setData(result);
+        const products = result.products;
+        dispatch(receivedProducts(products));
         setIsPending(false);
       } catch (error: unknown) {
         if (error instanceof Error && error.name === 'AbortError') {
@@ -29,7 +41,7 @@ export const useFetch = (query: string, url = 'https://dummyjson.com') => {
     }, 500);
 
     return () => abortCont.abort();
-  }, [query, url]);
+  }, [dispatch, query, url]);
 
-  return { data, total, isPending, error };
+  return { total, isPending, error };
 };

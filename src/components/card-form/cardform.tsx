@@ -1,28 +1,17 @@
-export interface IFormResult {
-  file: File;
-  text: string;
-  date: string;
-  select: string;
-  radio: string;
-  checkbox: string[];
-}
+import { ICardForm } from '@/store/cardsSlice';
 
-export const CardForm = ({ file, text, date, select, radio, checkbox }: IFormResult) => {
+export const CardForm = ({ image, text, date, select, radio, checkbox }: ICardForm) => {
   const checkboxList = checkbox.map((el, index) => (
     <span className="mb-2" key={index}>
       {index === checkbox.length - 1 ? `${el}` : `${el},  `}
     </span>
   ));
+
   return (
     <div className="col-lg-3 col-md-6 mb-4" data-testid="card-form">
       <div className="card">
         <div className="bg-image hover-zoom ripple" data-mdb-ripple-color="light">
-          <img
-            src={URL.createObjectURL(file)}
-            className=""
-            style={{ height: '300px', width: '300px' }}
-            alt={text}
-          />
+          <img src={image} className="" style={{ height: '300px', width: '300px' }} alt={text} />
           <a href="#!">
             <div className="mask">
               <div className="d-flex justify-content-start align-items-end h-100">

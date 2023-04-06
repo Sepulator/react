@@ -1,30 +1,27 @@
-import { useLocalStorage } from '@/hooks/useLocalStorage';
 import { ChangeEvent, useState } from 'react';
 
 import { Card } from '@/components/card/card';
 import { Spinner } from '@/components/icons';
 import { useFetch } from '@/hooks/useFetch';
-import { Product } from '@/types/data';
 import { CardExpanded } from '@/components/card-expanded/card-expanded';
-
-const search = `/products/search?q=`;
-const limit = 24;
-const skip = 0;
+import { useLocalStorage } from '@/hooks/useLocalStorage';
+import { useAppSelector } from '@/store/hooks';
 
 export const Home = () => {
+  const products = useAppSelector((state) => state.products.products);
   const [text, setText] = useLocalStorage('text', '');
   const [showModal, setShowModal] = useState(false);
   const [isClicked, setIsClicked] = useState(1);
-  const [searchQuery, setSearchQuery] = useState(`${search}${text}&limit=${limit}&skip=${skip}`);
-  const { data, isPending, error } = useFetch(searchQuery);
-  const {
+  const [searchQuery, setSearchQuery] = useState();
+  const { isPending, error } = useFetch();
+  /*   const {
     data: product,
     isPending: isPendingCard,
     error: errorCard,
-  } = useFetch(`/products/${isClicked}`);
+  } = useFetch(`/products/${isClicked}`); */
 
   const onSubmit = () => {
-    setSearchQuery(`${search}${text}&limit=${limit}&skip=${skip}`);
+    //setSearchQuery(`${search}${text}&limit=${limit}&skip=${skip}`);
   };
 
   const handleOpen = (id: number) => {
@@ -38,10 +35,9 @@ export const Home = () => {
     setShowModal(false);
   };
 
-  const items = data?.products.map((item) => (
+  const items = Object.values(products).map((item) => (
     <Card data={item} key={item.id} handleOpen={handleOpen} />
   ));
-
   return (
     <>
       <nav className="navbar navbar-expand-lg navbar-dark mt-3 mb-3 shadow p-2 bg-color">
@@ -61,8 +57,6 @@ export const Home = () => {
         </form>
       </nav>
 
-      {error && <div>{error}</div>}
-
       {isPending && (
         <div className="modal modal-additional">
           <Spinner className="modal-dialog modal-dialog-centered" />
@@ -74,15 +68,15 @@ export const Home = () => {
       </div>
 
       {!isPending && !Boolean(items?.length) && (
-        <h3 className="center-content">Nothing to display</h3>
+        <h3 className="center-content">{error || 'Nothing to display'}</h3>
       )}
 
       {showModal && isClicked && (
         <CardExpanded
-          data={product as unknown as Product | null}
-          isPending={isPendingCard}
-          error={errorCard}
+          data={products[isClicked]}
           handleClose={handleClose}
+          isPending={false}
+          error={'false'}
         />
       )}
     </>

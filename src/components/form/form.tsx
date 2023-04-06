@@ -7,12 +7,9 @@ import { FileInput } from './fileinput/fileinput';
 import { RadioInput } from './radioinput/radioinput';
 import { SelectInput } from './selectinput/selectinut';
 import { TextInput } from './textinput/textinput';
-import { IFormResult } from '../card-form/cardform';
 import { Toast } from '../toast/toast';
-
-interface Props {
-  generateCards: (card: IFormResult) => void;
-}
+import { useAppDispatch } from '@/store/hooks';
+import { addCard } from '@/store/cardsSlice';
 
 export interface IFormInputs {
   file: File;
@@ -23,7 +20,8 @@ export interface IFormInputs {
   checkbox: string[];
 }
 
-export const Form = ({ generateCards }: Props) => {
+export const Form = () => {
+  const dispatch = useAppDispatch();
   const [toast, setToast] = useState(false);
   const [picture, setPicture] = useState(true);
   const {
@@ -38,10 +36,11 @@ export const Form = ({ generateCards }: Props) => {
   });
 
   const onSubmit: SubmitHandler<IFormInputs> = (data: IFormInputs) => {
-    console.log(data.file);
     showToaster();
-    generateCards(data);
+    const image = URL.createObjectURL(data.file);
+    const { text, date, select, radio, checkbox } = data;
     setPicture(false);
+    dispatch(addCard({ image, text, date, select, radio, checkbox }));
     reset();
   };
 
