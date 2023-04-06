@@ -1,177 +1,106 @@
-import React from 'react';
+import { useState } from 'react';
+import { SubmitHandler, useForm } from 'react-hook-form';
 
-import {
-  gatherFormInputs,
-  validateCheckbox,
-  validateDate,
-  validateFile,
-  validateRadio,
-  validateSelect,
-  validateText,
-} from '@/helpers/validateform';
-import { CheckboxInput, ICheckboxList } from './checkboxinput/checkboxinput';
+import { CheckboxInput } from './checkboxinput/checkboxinput';
 import { DateInput } from './dateinput/dateinput';
 import { FileInput } from './fileinput/fileinput';
-import { IRadioList, RadioInput } from './radioinput/radioinput';
+import { RadioInput } from './radioinput/radioinput';
 import { SelectInput } from './selectinput/selectinut';
 import { TextInput } from './textinput/textinput';
 import { IFormResult } from '../card-form/cardform';
 import { Toast } from '../toast/toast';
 
 interface Props {
-  className?: string;
   generateCards: (card: IFormResult) => void;
 }
 
 export interface IFormInputs {
-  file: React.RefObject<HTMLInputElement>;
-  text: React.RefObject<HTMLInputElement>;
-  date: React.RefObject<HTMLInputElement>;
-  select: React.RefObject<HTMLSelectElement>;
-  radio: IRadioList;
-  checkbox: ICheckboxList;
-  form: React.RefObject<HTMLFormElement>;
+  file: File;
+  text: string;
+  date: string;
+  select: string;
+  radio: string;
+  checkbox: string[];
 }
 
-interface IValidInputs {
-  file: boolean;
-  text: boolean;
-  date: boolean;
-  select: boolean;
-  radio: boolean;
-  checkbox: boolean;
-}
+export const Form = ({ generateCards }: Props) => {
+  const [toast, setToast] = useState(false);
+  const [picture, setPicture] = useState(true);
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    reset,
+    formState: { errors },
+  } = useForm<IFormInputs>({
+    mode: 'onSubmit',
+    reValidateMode: 'onSubmit',
+  });
 
-interface State {
-  validation: IValidInputs;
-  showToast: boolean;
-}
-
-export class Form extends React.Component<Props, State> {
-  form: IFormInputs;
-  constructor(props: Props) {
-    super(props);
-    this.form = {
-      file: React.createRef(),
-      text: React.createRef(),
-      date: React.createRef(),
-      select: React.createRef(),
-      radio: {
-        promo1: React.createRef(),
-        promo2: React.createRef(),
-        promo3: React.createRef(),
-      },
-      checkbox: {
-        exclusive: React.createRef(),
-        arrival: React.createRef(),
-        best: React.createRef(),
-      },
-      form: React.createRef(),
-    };
-    this.state = {
-      validation: {
-        file: true,
-        text: true,
-        date: true,
-        select: true,
-        radio: true,
-        checkbox: true,
-      },
-      showToast: false,
-    };
-  }
-
-  validateInputs = async () => {
-    const validation = {
-      file: validateFile(this.form.file),
-      text: validateText(this.form.text),
-      date: validateDate(this.form.date),
-      select: validateSelect(this.form.select),
-      radio: validateRadio(this.form.radio),
-      checkbox: validateCheckbox(this.form.checkbox),
-    };
-    this.setState({
-      validation: validation,
-    });
+  const onSubmit: SubmitHandler<IFormInputs> = (data: IFormInputs) => {
+    console.log(data.file);
+    showToaster();
+    generateCards(data);
+    setPicture(false);
+    reset();
   };
 
-  async onSubmit(e: React.FormEvent<HTMLFormElement>) {
-    e.preventDefault();
-    await this.validateInputs();
-    const validForm = Object.values(this.state.validation).every((el) => el);
-    if (validForm) {
-      const result = gatherFormInputs(this.form);
-      this.props.generateCards(result);
-      this.form.form.current?.reset();
-      this.setToastTimer();
-    }
-  }
+  const onReset = (e: React.FormEvent<HTMLFormElement>) => {
+    reset();
+    setPicture(false);
+  };
 
-  onReset(e: React.FormEvent<HTMLFormElement>) {
-    this.form.file.current!.value = '';
+  const showPicture = (show: boolean) => {
+    setPicture(show);
+  };
 
-    this.setState({
-      validation: {
-        file: true,
-        text: true,
-        date: true,
-        select: true,
-        radio: true,
-        checkbox: true,
-      },
-    });
-  }
-
-  setToastTimer() {
-    this.setState({ showToast: true });
+  const showToaster = () => {
+    setToast(true);
     setTimeout(() => {
-      this.setState({ showToast: false });
+      setToast(false);
     }, 2500);
-  }
+  };
 
-  render() {
-    return (
-      <>
-        <div className="d-flex justify-content-center my-3">
-          <Toast showToast={this.state.showToast} />
-          <div className="col-lg-5">
-            <div className="card">
-              <form
-                action=""
-                name="form"
-                ref={this.form.form}
-                onSubmit={(e) => this.onSubmit(e)}
-                onReset={(e) => this.onReset(e)}
-              >
-                <FileInput file={this.form.file} validate={this.state.validation.file} />
-                <div className="card-body">
-                  <div className="row">
-                    <TextInput text={this.form.text} validate={this.state.validation.text} />
-                    <DateInput date={this.form.date} validate={this.state.validation.date} />
-                    <SelectInput
-                      select={this.form.select}
-                      validate={this.state.validation.select}
-                    />
-                    <RadioInput radio={this.form.radio} validate={this.state.validation.radio} />
-                    <CheckboxInput
-                      checkbox={this.form.checkbox}
-                      validate={this.state.validation.checkbox}
-                    />
-                  </div>
+  return (
+    <>
+      <div className="d-flex justify-content-center my-3">
+        <div className="col-lg-5">
+          <div className="card">
+            <form action="" name="form" onSubmit={handleSubmit(onSubmit)} onReset={onReset}>
+              <FileInput
+                register={register}
+                errors={errors}
+                setValue={setValue}
+                picture={picture}
+                showPicture={showPicture}
+              />
+              <div className="card-body">
+                <div className="row">
+                  <TextInput register={register} errors={errors} />
+                  <DateInput register={register} errors={errors} />
+                  <SelectInput register={register} errors={errors} />
+                  <RadioInput register={register} errors={errors} />
+                  <CheckboxInput register={register} errors={errors} />
                 </div>
-                <div className="d-flex justify-content-center card-footer border-0 bg-light py-3 text-end">
-                  <button type="submit" className="btn btn-primary btn-rounded me-1">
-                    Submit
-                  </button>
-                  <button type="reset" className="btn btn-warning btn-rounded ms-1">
-                    Reset
-                  </button>
-                </div>
-              </form>
-            </div>
+              </div>
+              <div className="d-flex justify-content-center card-footer border-0 bg-light py-3 text-end">
+                {toast ? (
+                  <Toast showToast={toast} />
+                ) : (
+                  <>
+                    <button type="submit" className="btn btn-primary btn-rounded me-1">
+                      Submit
+                    </button>
+                    <button type="reset" className="btn btn-warning btn-rounded ms-1">
+                      Reset
+                    </button>
+                  </>
+                )}
+              </div>
+            </form>
           </div>
         </div>
-      </>
-    );
-  }
-}
+      </div>
+    </>
+  );
+};

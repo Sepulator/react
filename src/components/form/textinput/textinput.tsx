@@ -1,29 +1,34 @@
-import { Component } from 'react';
+import { FieldErrorsImpl, UseFormRegister } from 'react-hook-form/dist/types';
+import { IFormInputs } from '../form';
 
 interface Props {
-  text: React.RefObject<HTMLInputElement>;
-  validate: boolean;
+  register: UseFormRegister<IFormInputs>;
+  errors: FieldErrorsImpl<IFormInputs>;
 }
 
-export class TextInput extends Component<Props> {
-  render() {
-    return (
-      <div className="md-form mb-2">
-        <label className="form-label" htmlFor="name">
-          Product title
-        </label>
-        <input
-          ref={this.props.text}
-          type="text"
-          id="name"
-          name="text"
-          className={`form-control ${this.props.validate ? '' : 'is-invalid'}`}
-          placeholder="Enter title of product"
-        />
-        <div className="invalid-feedback">
-          Title contains from 3 to 12 character, latin letters or numbers .
-        </div>
-      </div>
-    );
-  }
-}
+export const TextInput = ({ register, errors }: Props) => {
+  return (
+    <div className="md-form mb-2">
+      <label className="form-label" htmlFor="text">
+        Product title
+      </label>
+      <input
+        {...register('text', {
+          required: 'Fill product title',
+          minLength: { value: 3, message: 'Minimum 3 letters' },
+          maxLength: { value: 12, message: 'Maximum 12 letters' },
+          pattern: {
+            value: /^[a-zA-Z0-9]{3,12}$/,
+            message: 'Allowed latin letters or numbers.',
+          },
+        })}
+        type="text"
+        id="text"
+        name="text"
+        className={`form-control ${errors.text ? 'is-invalid' : ''}`}
+        placeholder="Enter title of product"
+      />
+      <div className="invalid-feedback">{errors.text?.message}</div>
+    </div>
+  );
+};

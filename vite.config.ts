@@ -1,6 +1,5 @@
 /// <reference types="vitest" />
 /// <reference types="vite/client" />
-import checker from 'vite-plugin-checker';
 import react from '@vitejs/plugin-react';
 import eslint from 'vite-plugin-eslint';
 import { defineConfig } from 'vitest/config';
@@ -9,15 +8,7 @@ import path from 'path';
 // https://vitejs.dev/config/
 export default defineConfig({
   base: '/',
-  plugins: [
-    react(),
-    eslint(),
-    checker({
-      eslint: {
-        lintCommand: 'eslint "./src/**/*.{ts,tsx}"',
-      },
-    }),
-  ],
+  plugins: [react(), eslint()],
   test: {
     globals: true,
     environment: 'jsdom',

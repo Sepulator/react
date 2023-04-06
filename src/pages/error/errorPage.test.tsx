@@ -1,10 +1,10 @@
 import { describe, it } from 'vitest';
 import { render, screen } from '@testing-library/react';
-import { Error } from './error';
+import { ErrorPage } from './errorPage';
 
-describe('Error', () => {
+describe('Error page', () => {
   it('Renders error page', () => {
-    render(<Error />);
+    render(<ErrorPage />);
     expect(
       screen.getByRole('heading', {
         level: 3,
