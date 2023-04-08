@@ -1,32 +1,30 @@
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent, FormEvent, useState } from 'react';
 
 import { Card } from '@/components/card/card';
 import { Spinner } from '@/components/icons';
-import { useFetch } from '@/hooks/useFetch';
+import { Product } from '@/types/data';
 import { CardExpanded } from '@/components/card-expanded/card-expanded';
-import { useLocalStorage } from '@/hooks/useLocalStorage';
-import { useAppSelector } from '@/store/hooks';
+import { useAppDispatch, useAppSelector } from '@/store/hooks';
+import { setSearchText, fetchProducts } from '@/store/producstSlice';
 
 export const Home = () => {
+  const dispatch = useAppDispatch();
   const products = useAppSelector((state) => state.products.products);
-  const [text, setText] = useLocalStorage('text', '');
-  const [showModal, setShowModal] = useState(false);
-  const [isClicked, setIsClicked] = useState(1);
-  const [searchQuery, setSearchQuery] = useState();
-  const { isPending, error } = useFetch();
-  /*   const {
-    data: product,
-    isPending: isPendingCard,
-    error: errorCard,
-  } = useFetch(`/products/${isClicked}`); */
+  const text = useAppSelector((state) => state.products.searchText);
+  const apiState = useAppSelector((state) => state.products.apiState);
 
-  const onSubmit = () => {
-    //setSearchQuery(`${search}${text}&limit=${limit}&skip=${skip}`);
+  const [showModal, setShowModal] = useState(false);
+  const [isClicked, setIsClicked] = useState<Product | null>(null);
+
+  const onSubmit = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    dispatch(fetchProducts(text));
   };
 
   const handleOpen = (id: number) => {
     if (id) {
-      setIsClicked(id);
+      const findId = products.find((el) => el.id === id);
+      if (findId) setIsClicked(findId);
       setShowModal(true);
     }
   };
@@ -48,7 +46,9 @@ export const Home = () => {
               className="form-control rounded-0"
               placeholder="Search"
               value={text}
-              onInput={(e: ChangeEvent<HTMLInputElement>) => setText(e.target.value)}
+              onInput={(e: ChangeEvent<HTMLInputElement>) =>
+                dispatch(setSearchText(e.target.value))
+              }
             />
           </div>
           <button type="submit" className="btn btn-primary" id="search-button">
@@ -57,7 +57,7 @@ export const Home = () => {
         </form>
       </nav>
 
-      {isPending && (
+      {apiState === 'LOADING' && (
         <div className="modal modal-additional">
           <Spinner className="modal-dialog modal-dialog-centered" />
         </div>
@@ -67,13 +67,15 @@ export const Home = () => {
         <div className="row">{items}</div>
       </div>
 
-      {!isPending && !Boolean(items?.length) && (
-        <h3 className="center-content">{error || 'Nothing to display'}</h3>
+      {apiState === 'READY' && !Boolean(items?.length) && (
+        <h3 className="center-content">{'Nothing to display'}</h3>
       )}
+
+      {apiState === 'ERROR' && <h3 className="center-content">{'Failed to fetch'}</h3>}
 
       {showModal && isClicked && (
         <CardExpanded
-          data={products[isClicked]}
+          data={isClicked}
           handleClose={handleClose}
           isPending={false}
           error={'false'}

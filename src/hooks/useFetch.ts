@@ -4,7 +4,6 @@ import { useEffect, useState } from 'react';
 import { receivedProducts } from '@/store/producstSlice';
 import { ProductApi } from '@/types/data';
 
-// const search = `/products/search?q=`;
 const limit = 24;
 const skip = 0;
 const search = `https://dummyjson.com/products?limit=${limit}&skip=${skip}`;

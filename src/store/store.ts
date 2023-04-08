@@ -10,5 +10,9 @@ export const store = configureStore({
   },
 });
 
+store.subscribe(() => {
+  window.localStorage.setItem('search-text', store.getState().products.searchText);
+});
+
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;
