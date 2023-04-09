@@ -1,8 +1,7 @@
 import { rest } from 'msw';
 
 export const handlers = [
-  rest.get(`https://dummyjson.com/products/search`, (req, res, ctx) => {
-    // const query = req.url.searchParams.getAll('search');
+  rest.get(`https://dummyjson.com/products/`, (req, res, ctx) => {
     return res(
       ctx.json({
         products: [

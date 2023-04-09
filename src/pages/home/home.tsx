@@ -1,5 +1,5 @@
 import { useLocalStorage } from '@/hooks/useLocalStorage';
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent, FormEvent, useState } from 'react';
 
 import { Card } from '@/components/card/card';
 import { Spinner } from '@/components/icons';
@@ -15,7 +15,7 @@ export const Home = () => {
   const [text, setText] = useLocalStorage('text', '');
   const [showModal, setShowModal] = useState(false);
   const [isClicked, setIsClicked] = useState(1);
-  const [searchQuery, setSearchQuery] = useState(`${search}${text}&limit=${limit}&skip=${skip}`);
+  const [searchQuery, setSearchQuery] = useState(`/products/?limit=${limit}&skip=${skip}`);
   const { data, isPending, error } = useFetch(searchQuery);
   const {
     data: product,
@@ -23,7 +23,8 @@ export const Home = () => {
     error: errorCard,
   } = useFetch(`/products/${isClicked}`);
 
-  const onSubmit = () => {
+  const onSubmit = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
     setSearchQuery(`${search}${text}&limit=${limit}&skip=${skip}`);
   };
 
