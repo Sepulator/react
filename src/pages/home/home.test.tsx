@@ -1,8 +1,9 @@
 import { describe, it } from 'vitest';
-import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+import { screen, fireEvent, waitFor } from '@testing-library/react';
 
 import { Home } from './home';
 import { server } from '@/mocks/server';
+import { renderWithProviders } from '@/utils/test-utils';
 
 beforeAll(() => server.listen());
 afterEach(() => server.resetHandlers());
@@ -10,7 +11,7 @@ afterAll(() => server.close());
 
 describe('Home', async () => {
   it('Renders home page with one card from api', async () => {
-    render(<Home />);
+    renderWithProviders(<Home />);
 
     await waitFor(() =>
       expect(
@@ -22,7 +23,7 @@ describe('Home', async () => {
   });
 
   it('Change input value', () => {
-    render(<Home />);
+    renderWithProviders(<Home />);
 
     fireEvent.change(screen.getByRole('searchbox'), {
       target: { value: 'JavaScript' },

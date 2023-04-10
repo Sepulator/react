@@ -15,11 +15,21 @@ const initialState: IProductsState = {
   apiState: 'READY',
 };
 
-export const fetchProducts = createAsyncThunk('products/apistate', async (search: string) => {
-  const response = await fetch(`https://dummyjson.com/products/search?q=${search}&limit=24&skip=0`);
-  const data = (await response.json()) as ProductApi;
-  return data.products;
-});
+export const fetchProducts = createAsyncThunk(
+  'products/apistate',
+  async (search: string, { rejectWithValue }) => {
+    try {
+      const response = await fetch(
+        `https://dummyjson.com/products/search?q=${search}&limit=24&skip=0`
+      );
+      const data = (await response.json()) as ProductApi;
+      return data.products;
+    } catch (err: unknown) {
+      const message = err instanceof Error ? err.message : 'Unknown error.';
+      return rejectWithValue(message);
+    }
+  }
+);
 
 const productsSlice = createSlice({
   name: 'products',

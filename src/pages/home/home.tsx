@@ -1,4 +1,4 @@
-import { ChangeEvent, FormEvent, useState } from 'react';
+import { ChangeEvent, FormEvent, useEffect, useState } from 'react';
 
 import { Card } from '@/components/card/card';
 import { Spinner } from '@/components/icons';
@@ -15,6 +15,15 @@ export const Home = () => {
 
   const [showModal, setShowModal] = useState(false);
   const [isClicked, setIsClicked] = useState<Product | null>(null);
+
+  useEffect(() => {
+    const promise = dispatch(fetchProducts(''));
+    return () => {
+      promise.abort();
+      localStorage.setItem('search-text', text);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const onSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -36,6 +45,7 @@ export const Home = () => {
   const items = Object.values(products).map((item) => (
     <Card data={item} key={item.id} handleOpen={handleOpen} />
   ));
+
   return (
     <>
       <nav className="navbar navbar-expand-lg navbar-dark mt-3 mb-3 shadow p-2 bg-color">
@@ -70,8 +80,6 @@ export const Home = () => {
       {apiState === 'READY' && !Boolean(items?.length) && (
         <h3 className="center-content">{'Nothing to display'}</h3>
       )}
-
-      {apiState === 'ERROR' && <h3 className="center-content">{'Failed to fetch'}</h3>}
 
       {showModal && isClicked && (
         <CardExpanded

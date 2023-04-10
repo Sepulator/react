@@ -1,21 +1,22 @@
 import { describe, it, vi } from 'vitest';
-import { render, screen, waitFor } from '@testing-library/react';
+import { screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
 import { FormPage } from './formPage';
 import { selectOptions } from '@/components/form/selectinput/selectinut';
+import { renderWithProviders } from '@/utils/test-utils';
 
 describe('Form page', () => {
   window.URL.createObjectURL = vi.fn();
 
   it('Renders form page', () => {
-    render(<FormPage />);
+    renderWithProviders(<FormPage />);
     expect(screen.getByRole('form')).toHaveLength(12);
     expect(screen.queryByTestId('card-form')).not.toBeInTheDocument();
   });
 
   it('Submit form data and create card', async () => {
-    render(<FormPage />);
+    renderWithProviders(<FormPage />);
 
     const image = new File(['image'], 'image.png', { type: 'image/png' });
     const fileInput = screen.getByTestId('file-input') as HTMLInputElement;
@@ -66,7 +67,7 @@ describe('Form page', () => {
   });
 
   it('Errors messages on empty submit', async () => {
-    render(<FormPage />);
+    renderWithProviders(<FormPage />);
 
     const submitButton = screen.getByTestId('submit-button');
     await userEvent.click(submitButton);
