@@ -9,8 +9,8 @@ beforeAll(() => server.listen());
 afterEach(() => server.resetHandlers());
 afterAll(() => server.close());
 
-describe('Home', async () => {
-  it('Renders home page with one card from api', async () => {
+describe('Home page', async () => {
+  it('Renders home page with one card from mocked api', async () => {
     renderWithProviders(<Home />);
 
     await waitFor(() =>
@@ -29,5 +29,17 @@ describe('Home', async () => {
       target: { value: 'JavaScript' },
     });
     waitFor(() => expect(screen.getByText(/JavaScript/)).toBeInTheDocument());
+  });
+
+  it('Submit search value', async () => {
+    renderWithProviders(<Home />);
+
+    await waitFor(() =>
+      expect(
+        screen.getAllByRole('heading', {
+          level: 6,
+        })
+      ).toHaveLength(1)
+    );
   });
 });

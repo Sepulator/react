@@ -6,6 +6,7 @@ import { Product } from '@/types/data';
 import { CardExpanded } from '@/components/card-expanded/card-expanded';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { setSearchText, fetchProducts } from '@/store/producstSlice';
+import { SearchBar } from '@/components/search-bar/search-bar';
 
 export const Home = () => {
   const dispatch = useAppDispatch();
@@ -17,6 +18,10 @@ export const Home = () => {
   const [isClicked, setIsClicked] = useState<Product | null>(null);
 
   useEffect(() => {
+    if (products.length && text) {
+      localStorage.setItem('search-text', text);
+      return;
+    }
     const promise = dispatch(fetchProducts(''));
     return () => {
       promise.abort();
@@ -33,8 +38,10 @@ export const Home = () => {
   const handleOpen = (id: number) => {
     if (id) {
       const findId = products.find((el) => el.id === id);
-      if (findId) setIsClicked(findId);
-      setShowModal(true);
+      if (findId) {
+        setIsClicked(findId);
+        setShowModal(true);
+      }
     }
   };
 
@@ -49,22 +56,11 @@ export const Home = () => {
   return (
     <>
       <nav className="navbar navbar-expand-lg navbar-dark mt-3 mb-3 shadow p-2 bg-color">
-        <form className="input-group w-auto py-1" onSubmit={onSubmit}>
-          <div className="bg-light">
-            <input
-              type="search"
-              className="form-control rounded-0"
-              placeholder="Search"
-              value={text}
-              onInput={(e: ChangeEvent<HTMLInputElement>) =>
-                dispatch(setSearchText(e.target.value))
-              }
-            />
-          </div>
-          <button type="submit" className="btn btn-primary" id="search-button">
-            <i className="fas fa-search"></i>
-          </button>
-        </form>
+        <SearchBar
+          text={text}
+          onSubmit={onSubmit}
+          onInput={(e: ChangeEvent<HTMLInputElement>) => dispatch(setSearchText(e.target.value))}
+        />
       </nav>
 
       {apiState === 'LOADING' && (
