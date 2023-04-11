@@ -8,24 +8,21 @@ import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { setSearchText, fetchProducts } from '@/store/producstSlice';
 import { SearchBar } from '@/components/search-bar/search-bar';
 
+const PAGE_LIMIT = 24;
+
 export const Home = () => {
   const dispatch = useAppDispatch();
   const products = useAppSelector((state) => state.products.products);
   const text = useAppSelector((state) => state.products.searchText);
   const apiState = useAppSelector((state) => state.products.apiState);
-
   const [showModal, setShowModal] = useState(false);
   const [isClicked, setIsClicked] = useState<Product | null>(null);
 
   useEffect(() => {
-    if (products.length && text) {
-      localStorage.setItem('search-text', text);
-      return;
-    }
+    if (products.length === PAGE_LIMIT || text) return;
     const promise = dispatch(fetchProducts(''));
     return () => {
       promise.abort();
-      localStorage.setItem('search-text', text);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

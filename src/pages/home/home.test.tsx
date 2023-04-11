@@ -1,5 +1,6 @@
 import { describe, it } from 'vitest';
-import { screen, fireEvent, waitFor } from '@testing-library/react';
+import { screen, waitFor } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 
 import { Home } from './home';
 import { server } from '@/mocks/server';
@@ -22,24 +23,26 @@ describe('Home page', async () => {
     );
   });
 
-  it('Change input value', () => {
+  it('Change input value', async () => {
     renderWithProviders(<Home />);
 
-    fireEvent.change(screen.getByRole('searchbox'), {
-      target: { value: 'JavaScript' },
-    });
-    waitFor(() => expect(screen.getByText(/JavaScript/)).toBeInTheDocument());
+    const searchBar = screen.getByRole('searchbox');
+    await userEvent.type(searchBar, 'JavaScript');
+    expect(searchBar).toHaveValue('JavaScript');
   });
 
   it('Submit search value', async () => {
     renderWithProviders(<Home />);
 
-    await waitFor(() =>
-      expect(
-        screen.getAllByRole('heading', {
-          level: 6,
-        })
-      ).toHaveLength(1)
-    );
+    const searchBar = screen.getByRole('searchbox');
+    await userEvent.type(searchBar, 'JavaScript');
+
+    const submitButton = screen.getByTestId('search-btn');
+    await userEvent.click(submitButton);
+    expect(screen.queryAllByTestId('card-body')).toHaveLength(0);
+
+    await userEvent.type(searchBar, 'apple');
+    await userEvent.click(submitButton);
+    expect(screen.queryAllByTestId('card-body')).toHaveLength(1);
   });
 });

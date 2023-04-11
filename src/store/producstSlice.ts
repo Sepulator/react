@@ -11,7 +11,7 @@ export interface IProductsState {
 
 const initialState: IProductsState = {
   products: [],
-  searchText: window.localStorage.getItem('search-text') || '',
+  searchText: '',
   apiState: 'READY',
 };
 

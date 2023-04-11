@@ -18,7 +18,7 @@ export const SearchBar = ({ text, onSubmit, onInput }: Props) => {
           onInput={onInput}
         />
       </div>
-      <button type="submit" className="btn btn-primary" id="search-button">
+      <button type="submit" className="btn btn-primary" id="search-button" data-testid="search-btn">
         <i className="fas fa-search"></i>
       </button>
     </form>

@@ -2,7 +2,19 @@ import { rest } from 'msw';
 
 export const handlers = [
   rest.get(`https://dummyjson.com/products/search`, (req, res, ctx) => {
-    // const query = req.url.searchParams.getAll('search');
+    const query = req.url.searchParams.get('q');
+
+    if (query === 'JavaScript') {
+      return res(
+        ctx.json({
+          products: [],
+          total: 0,
+          skip: 0,
+          limit: 0,
+        })
+      );
+    }
+
     return res(
       ctx.json({
         products: [
