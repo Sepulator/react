@@ -46,6 +46,12 @@ export const Home = () => {
     setShowModal(false);
   };
 
+  const handleModal = (e: React.MouseEvent<HTMLDivElement>) => {
+    const target = e.target as HTMLElement;
+    const isCard = target.closest('.modal-content');
+    if (!isCard) setShowModal(false);
+  };
+
   const items = Object.values(products).map((item) => (
     <Card data={item} key={item.id} handleOpen={handleOpen} />
   ));
@@ -78,6 +84,7 @@ export const Home = () => {
         <CardExpanded
           data={isClicked}
           handleClose={handleClose}
+          handleModal={handleModal}
           isPending={false}
           error={'false'}
         />
