@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
 
-import { Paths } from '@/data/type';
+import { Paths } from '@/types/data';
 
 interface IHeaderProps {
   data: Paths;
@@ -15,7 +15,7 @@ const paths: Paths = {
 
 export const Header = () => {
   const { pathname } = useLocation();
-  const [title, setTitle] = useState<string>(paths[pathname]);
+  const [title, setTitle] = useState(paths[pathname]);
 
   useEffect(() => {
     const title = paths[pathname];

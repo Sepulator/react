@@ -1,16 +1,3 @@
 export const About = () => {
-  return (
-    <div className="text-center">
-      <h3
-        style={{
-          position: 'absolute',
-          left: '50%',
-          top: '50%',
-          transform: 'translate(-50%, -50%)',
-        }}
-      >
-        About Page
-      </h3>
-    </div>
-  );
+  return <h3 className="center-content">About Page</h3>;
 };

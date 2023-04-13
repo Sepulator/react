@@ -24,7 +24,8 @@ export function useLocalStorage<T>(key: string, defaultValue: T): [T, (newValue:
     return () => {
       window.localStorage.setItem(key, JSON.stringify(inputRef.current));
     };
-  }, [key]);
+  });
+
 
   const setValue = (newValue: T) => {
     setStoredValue(newValue);

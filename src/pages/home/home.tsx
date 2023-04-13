@@ -1,19 +1,53 @@
-import { ChangeEvent } from 'react';
+import { useLocalStorage } from '@/hooks/useLocalStorage';
+import { ChangeEvent, useState } from 'react';
 
-import { Card } from '../../components/card/card';
-import products from '../../data/products.json';
+import { Card } from '@/components/card/card';
+import { Spinner } from '@/components/icons';
+import { useFetch } from '@/hooks/useFetch';
+import { Product } from '@/types/data';
+import { CardExpanded } from '@/components/card-expanded/card-expanded';
+
+const search = `/products/search?q=`;
+const limit = 24;
+const skip = 0;
 
 import { useLocalStorage } from '@/hooks/useLocalStorage';
 
 export const Home = () => {
-  const [text, setText] = useLocalStorage<string>('text', '');
+  const [text, setText] = useLocalStorage('text', '');
+  const [showModal, setShowModal] = useState(false);
+  const [isClicked, setIsClicked] = useState(1);
+  const [searchQuery, setSearchQuery] = useState(`${search}${text}&limit=${limit}&skip=${skip}`);
+  const { data, isPending, error } = useFetch(searchQuery);
+  const {
+    data: product,
+    isPending: isPendingCard,
+    error: errorCard,
+  } = useFetch(`/products/${isClicked}`);
 
-  const items = products.map((item) => <Card {...item} key={item.id} />);
+  const onSubmit = () => {
+    setSearchQuery(`${search}${text}&limit=${limit}&skip=${skip}`);
+  };
+
+  const handleOpen = (id: number) => {
+    if (id) {
+      setIsClicked(id);
+      setShowModal(true);
+    }
+  };
+
+  const handleClose = () => {
+    setShowModal(false);
+  };
+
+  const items = data?.products.map((item) => (
+    <Card data={item} key={item.id} handleOpen={handleOpen} />
+  ));
 
   return (
     <>
       <nav className="navbar navbar-expand-lg navbar-dark mt-3 mb-3 shadow p-2 bg-color">
-        <div className="input-group w-auto py-1">
+        <form className="input-group w-auto py-1" onSubmit={onSubmit}>
           <div className="bg-light">
             <input
               type="search"
@@ -23,14 +57,36 @@ export const Home = () => {
               onInput={(e: ChangeEvent<HTMLInputElement>) => setText(e.target.value)}
             />
           </div>
-          <button id="search-button" type="button" className="btn btn-primary">
+          <button type="submit" className="btn btn-primary" id="search-button">
             <i className="fas fa-search"></i>
           </button>
-        </div>
+        </form>
       </nav>
+
+      {error && <div>{error}</div>}
+
+      {isPending && (
+        <div className="modal modal-additional">
+          <Spinner className="modal-dialog modal-dialog-centered" />
+        </div>
+      )}
+
       <div className="text-center mb-2">
         <div className="row">{items}</div>
       </div>
+
+      {!isPending && !Boolean(items?.length) && (
+        <h3 className="center-content">Nothing to display</h3>
+      )}
+
+      {showModal && isClicked && (
+        <CardExpanded
+          data={product as unknown as Product | null}
+          isPending={isPendingCard}
+          error={errorCard}
+          handleClose={handleClose}
+        />
+      )}
     </>
   );
 };

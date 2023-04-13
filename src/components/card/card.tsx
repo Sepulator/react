@@ -1,12 +1,23 @@
 import './card.scss';
-import { Product } from '../../data/type';
+import { Product } from '../../types/data';
 
-export const Card = ({ title, price, discountPercentage, brand, category, thumbnail }: Product) => {
+interface Props {
+  handleOpen: (id: number) => void;
+  data: Product;
+}
+
+export const Card = ({ data, handleOpen }: Props) => {
+  const { id, title, price, discountPercentage, brand, category, thumbnail } = data;
   return (
-    <div className="col-lg-3 col-md-6 mb-4">
+    <div className="col-lg-3 col-md-6 mb-4" onClick={() => handleOpen(id)}>
       <div className="card">
         <div className="bg-image hover-zoom ripple" data-mdb-ripple-color="light">
-          <img src={thumbnail} className="w-auto" style={{ height: '300px' }} alt={title} />
+          <img
+            src={thumbnail}
+            className="w-100"
+            style={{ height: '250px', objectFit: 'contain' }}
+            alt={title}
+          />
           <a href="#!">
             <div className="mask">
               <div className="d-flex justify-content-start align-items-end h-100">
