@@ -4,9 +4,8 @@ import { Spinner } from '../icons';
 interface Props {
   handleClose: () => void;
   handleModal: (e: React.MouseEvent<HTMLDivElement>) => void;
-  data: Product | null;
+  data: Product | undefined;
   isPending: boolean;
-  error: string;
 }
 
 interface PropsCard {
@@ -14,13 +13,13 @@ interface PropsCard {
   data: Product;
 }
 
-export const CardExpanded = ({ data, handleClose, handleModal, isPending, error }: Props) => {
+export const CardExpanded = ({ data, handleClose, handleModal, isPending }: Props) => {
   return (
     <div className="modal modal-additional" tabIndex={-1} onClick={(e) => handleModal(e)}>
       <div className="modal-dialog modal-dialog-centered">
         <div className="modal-content">
           {isPending && <Spinner className="modal-dialog modal-dialog-centered" />}
-          {data && !isPending && <Card data={data} handleClose={handleClose} />}
+          {!isPending && data && <Card data={data} handleClose={handleClose} />}
         </div>
       </div>
     </div>

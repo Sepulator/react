@@ -2,43 +2,41 @@ import { ChangeEvent, FormEvent, useEffect, useState } from 'react';
 
 import { Card } from '@/components/card/card';
 import { Spinner } from '@/components/icons';
-import { Product } from '@/types/data';
 import { CardExpanded } from '@/components/card-expanded/card-expanded';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
-import { setSearchText, fetchProducts } from '@/store/producstSlice';
+import { setSearchText } from '@/store/producstSlice';
 import { SearchBar } from '@/components/search-bar/search-bar';
-
-const PAGE_LIMIT = 24;
+import { useGetAllProductsQuery, useGetProductQuery } from '@/store/api';
 
 export const Home = () => {
-  const dispatch = useAppDispatch();
-  const products = useAppSelector((state) => state.products.products);
+  const [id, setId] = useState(1);
+  const [queryText, setQueryText] = useState('');
   const text = useAppSelector((state) => state.products.searchText);
-  const apiState = useAppSelector((state) => state.products.apiState);
   const [showModal, setShowModal] = useState(false);
-  const [isClicked, setIsClicked] = useState<Product | null>(null);
+
+  const dispatch = useAppDispatch();
+  const {
+    data: productsApi,
+    error: errorProducts,
+    isFetching: isFetchingProducts,
+  } = useGetAllProductsQuery(queryText);
+  const { data, isFetching } = useGetProductQuery(id);
 
   useEffect(() => {
-    if (products.length === PAGE_LIMIT || text) return;
-    const promise = dispatch(fetchProducts(''));
-    return () => {
-      promise.abort();
-    };
+    if (!text) return;
+    setQueryText(text);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const onSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    dispatch(fetchProducts(text));
+    setQueryText(text);
   };
 
   const handleOpen = (id: number) => {
     if (id) {
-      const findId = products.find((el) => el.id === id);
-      if (findId) {
-        setIsClicked(findId);
-        setShowModal(true);
-      }
+      setId(id);
+      setShowModal(true);
     }
   };
 
@@ -52,10 +50,6 @@ export const Home = () => {
     if (!isCard) setShowModal(false);
   };
 
-  const items = Object.values(products).map((item) => (
-    <Card data={item} key={item.id} handleOpen={handleOpen} />
-  ));
-
   return (
     <>
       <nav className="navbar navbar-expand-lg navbar-dark mt-3 mb-3 shadow p-2 bg-color">
@@ -66,27 +60,33 @@ export const Home = () => {
         />
       </nav>
 
-      {apiState === 'LOADING' && (
+      {isFetchingProducts && (
         <div className="modal modal-additional">
           <Spinner className="modal-dialog modal-dialog-centered" />
         </div>
       )}
 
       <div className="text-center mb-2">
-        <div className="row">{items}</div>
+        <div className="row">
+          {productsApi &&
+            productsApi.products.map((item) => (
+              <Card key={item.id} data={item} handleOpen={handleOpen} />
+            ))}
+        </div>
       </div>
 
-      {apiState === 'READY' && !Boolean(items?.length) && (
+      {!isFetchingProducts && productsApi && !Boolean(productsApi.products?.length) && (
         <h3 className="center-content">{'Nothing to display'}</h3>
       )}
 
-      {showModal && isClicked && (
+      {errorProducts && <h3 className="center-content">{`${errorProducts}`}</h3>}
+
+      {showModal && (
         <CardExpanded
-          data={isClicked}
+          data={data}
           handleClose={handleClose}
           handleModal={handleModal}
-          isPending={false}
-          error={'false'}
+          isPending={isFetching}
         />
       )}
     </>

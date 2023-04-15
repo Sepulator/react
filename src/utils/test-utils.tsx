@@ -8,6 +8,7 @@ import { Provider } from 'react-redux';
 import type { AppStore, RootState } from '@/store/store';
 import productsSlice from '@/store/producstSlice';
 import cardsSlice from '@/store/cardsSlice';
+import { productApi } from '@/store/api';
 
 interface ExtendedRenderOptions extends Omit<RenderOptions, 'queries'> {
   preloadedState?: PreloadedState<RootState>;
@@ -19,8 +20,12 @@ export function renderWithProviders(
   {
     preloadedState = {},
     store = configureStore({
-      reducer: { products: productsSlice, cards: cardsSlice },
-      preloadedState,
+      reducer: {
+        products: productsSlice,
+        cards: cardsSlice,
+        [productApi.reducerPath]: productApi.reducer,
+      },
+      middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(productApi.middleware),
     }),
     ...renderOptions
   }: ExtendedRenderOptions = {}
