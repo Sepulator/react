@@ -6,7 +6,7 @@ import { setupStore } from './store/store';
 import App from './App';
 import './index.scss';
 
-ReactDOM.createRoot(document.getElementById('rootId') as HTMLElement).render(
+ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
     <Provider store={setupStore()}>
       <App />

@@ -44,15 +44,7 @@ export const HeaderList = ({ data }: IHeaderProps) => {
     <>
       {Object.keys(data).map((key) => (
         <li className="nav-item" key={key}>
-          <NavLink
-            to={key}
-            className="nav-link"
-            style={({ isActive }) => {
-              return {
-                color: isActive ? 'white' : '',
-              };
-            }}
-          >
+          <NavLink to={key} className="nav-link">
             {paths[key].split(' ')[0]}
           </NavLink>
         </li>
