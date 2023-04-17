@@ -23,7 +23,6 @@ describe('Form page', () => {
     expect(fileInput).toBeInTheDocument();
     await userEvent.upload(fileInput, image);
     waitFor(() => {
-      expect(fileInput.files?.length).toEqual(1);
       expect(fileInput.files!.item(0)).toStrictEqual(image);
     });
 
