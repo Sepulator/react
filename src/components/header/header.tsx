@@ -33,7 +33,7 @@ export const Header = () => {
         <ul className="navbar-nav me-auto mb-2 mb-lg-0">
           <HeaderList data={paths} />
         </ul>
-        <span className="fs-4 nav-title">{title}</span>
+        <h1 className="fs-4 nav-title">{title}</h1>
       </div>
     </header>
   );
