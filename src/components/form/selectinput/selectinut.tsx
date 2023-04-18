@@ -28,6 +28,7 @@ export const SelectInput = ({ register, errors }: Props) => {
         name="select"
         className={`form-select mb-3  ${errors.select ? 'is-invalid' : ''}`}
         defaultValue="default"
+        data-testid="select-input"
       >
         <option hidden value="default">
           Select one...

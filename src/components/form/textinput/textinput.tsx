@@ -24,9 +24,9 @@ export const TextInput = ({ register, errors }: Props) => {
         })}
         type="text"
         id="text"
-        data-testid="text-input"
         className={`form-control ${errors.text ? 'is-invalid' : ''}`}
         placeholder="Enter title of product"
+        data-testid="text-input"
       />
       <div className="invalid-feedback">{errors.text?.message}</div>
     </div>

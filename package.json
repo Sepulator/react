@@ -7,9 +7,9 @@
   "scripts": {
     "dev": "ts-node --esm server.ts",
     "dev-old": "vite",
-    "build": "tsc --noEmit && vite build",
+    "build-old": "tsc --noEmit && vite build",
     "build:client": "vite build --outDir dist/client",
-    "build:server": "vite build --outDir dist/server --ssr src/entry-server.js",
+    "build:server": "vite build --outDir dist/server --ssr src/entry-server.tsx",
     "preview": "vite preview",
     "test": "vitest",
     "coverage": "vitest run --coverage",

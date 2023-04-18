@@ -16,6 +16,7 @@ export const SearchBar = ({ text, onSubmit, onInput }: Props) => {
           placeholder="Search"
           value={text}
           onInput={onInput}
+          data-testid="search-bar"
         />
       </div>
       <button type="submit" className="btn btn-primary" id="search-button" data-testid="search-btn">

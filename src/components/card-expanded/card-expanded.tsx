@@ -37,9 +37,10 @@ const Card = ({ data, handleClose }: PropsCard) => {
           data-mdb-dismiss="modal"
           aria-label="Close"
           onClick={handleClose}
+          data-testid="close-btn"
         ></button>
       </div>
-      <div className="modal-body">
+      <div className="modal-body" data-testid="card-body-expand">
         <div className="bg-image hover-zoom ripple" data-mdb-ripple-color="light">
           <img
             src={thumbnail}
@@ -85,6 +86,7 @@ const Card = ({ data, handleClose }: PropsCard) => {
           className="btn btn-secondary"
           data-mdb-dismiss="modal"
           onClick={handleClose}
+          data-testid="close-btn"
         >
           Close
         </button>

@@ -19,6 +19,7 @@ export const RadioInput = ({ register, errors }: Props) => {
             id="promo1"
             name="radio"
             value="5% promo"
+            data-testid="radio-input"
           />
           <label className="form-check-label" htmlFor="promo1">
             5% promo
@@ -33,6 +34,7 @@ export const RadioInput = ({ register, errors }: Props) => {
             id="promo2"
             name="radio"
             value="10% promo"
+            data-testid="radio-input"
           />
           <label className="form-check-label" htmlFor="promo2">
             10% promo
@@ -46,6 +48,7 @@ export const RadioInput = ({ register, errors }: Props) => {
             id="promo3"
             name="radio"
             value="15% promo"
+            data-testid="radio-input"
           />
           <label className="form-check-label" htmlFor="promo3">
             15% promo
