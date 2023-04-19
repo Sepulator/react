@@ -20,20 +20,19 @@ async function createServer() {
     const url = req.originalUrl;
 
     try {
-      const template = fs.readFileSync(path.resolve(__dirname, 'index.html'), 'utf-8');
-      const html = await vite.transformIndexHtml(url, template);
-      const parts = html.split('<!--app-html-->');
+      let template = fs.readFileSync(path.resolve(__dirname, 'index.html'), 'utf-8');
+      template = await vite.transformIndexHtml(url, template);
+      const parts = template.split('<!--app-html-->');
 
       const { render } = await vite.ssrLoadModule('/src/entry-server.tsx');
 
-      res.write(parts[0]);
-
       const { pipe } = await render(req, {
         onShellReady() {
+          res.write(parts[0]);
           pipe(res);
         },
         onShellError(err: unknown) {
-          const message = err instanceof Error ? err.message : 'Pipe OnShellError';
+          const message = err instanceof Error ? err.message : 'Pipe OnError';
           console.log(message);
         },
         onAllReady() {

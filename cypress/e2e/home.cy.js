@@ -1,19 +1,18 @@
 describe('Home Page Test', () => {
-  beforeEach(() => {
-    cy.visit('/');
-  });
-
   it('the h1 contains the correct text', () => {
+    cy.visit('/');
     cy.get('h1').contains('Home Page');
   });
 
   it('the nav links on the homepage are correct', () => {
+    cy.visit('/');
     cy.get('li').eq(0).contains('Home');
     cy.get('li').eq(1).contains('About');
     cy.get('li').eq(2).contains('Form');
   });
 
   it('clicking links navigates to a new url', () => {
+    cy.visit('/');
     cy.contains('About').click();
     cy.url().should('include', '/about');
     cy.get('h1').contains('About Page');
@@ -23,6 +22,7 @@ describe('Home Page Test', () => {
   });
 
   it('check search-bar with submitting "apple"', () => {
+    cy.visit('/');
     cy.getByData('search-bar').type('apple');
     cy.getByData('search-btn').click();
     cy.get('h6').contains('iPhone 9');
@@ -30,18 +30,25 @@ describe('Home Page Test', () => {
     cy.getByData('card-body').should('have.length', 1);
   });
 
-  it.only('default view and empty search value', () => {
+  it('default view and empty search value', () => {
+    cy.visit('/');
     cy.getByData('search-bar').type('JavaScript');
     cy.getByData('search-btn').click();
     cy.contains('Nothing to display');
+
     cy.getByData('search-bar').clear();
     cy.getByData('search-btn').click();
     cy.getByData('card-body').should('have.length', 24);
   });
 
   it('open and close modal window', () => {
+    cy.visit('/');
     cy.getByData('card-body').eq(0).click();
     cy.getByData('card-body-expand').should('exist');
     cy.getByData('close-btn').eq(0).click();
+  });
+
+  it('Does not do much!', () => {
+    expect(true).to.equal(true);
   });
 });

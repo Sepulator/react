@@ -10,7 +10,7 @@ import { routes } from './router';
 const router = createBrowserRouter(routes);
 
 hydrateRoot(
-  document.getElementById('root') as HTMLElement,
+  document.getElementById('root-id') as HTMLElement,
   <React.StrictMode>
     <Provider store={setupStore()}>
       <RouterProvider router={router} />

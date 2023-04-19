@@ -4,4 +4,8 @@ describe('Error Page Test', () => {
     cy.url().should('include', '/404');
     cy.get('h1').contains('Error Page');
   });
+
+  it('Does not do much!', () => {
+    expect(true).to.equal(true);
+  });
 });
