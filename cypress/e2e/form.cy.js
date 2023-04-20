@@ -29,6 +29,7 @@ describe('Form Page Test', () => {
     cy.getByData('checkbox-input').eq(2).click();
     cy.getByData('select-input').select('Perfume');
     cy.getByData('submit-button').click();
+    cy.getByData('toast-id').should('be.visible').and('contain', 'Card succesfully added');
     cy.getByData('card-form').should('have.length', 1);
   });
 

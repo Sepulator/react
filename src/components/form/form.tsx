@@ -84,7 +84,7 @@ export const Form = () => {
               </div>
               <div className="d-flex justify-content-center card-footer border-0 bg-light py-3 text-end">
                 {toast ? (
-                  <Toast showToast={toast} />
+                  <Toast />
                 ) : (
                   <>
                     <button
