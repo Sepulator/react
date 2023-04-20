@@ -9,13 +9,7 @@ export interface ICardForm {
   checkbox: string[];
 }
 
-export interface CardState {
-  cards: ICardForm[];
-}
-
-const initialState: CardState = {
-  cards: [],
-};
+const initialState: ICardForm[] = [];
 
 const cardsSlice = createSlice({
   name: 'cards',
@@ -23,7 +17,7 @@ const cardsSlice = createSlice({
   reducers: {
     addCard(state, action: PayloadAction<ICardForm>) {
       const card = action.payload;
-      state.cards.push(card);
+      state.push(card);
     },
   },
 });

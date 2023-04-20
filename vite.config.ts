@@ -7,6 +7,7 @@ import eslint from 'vite-plugin-eslint';
 import svgr from 'vite-plugin-svgr';
 import istanbul from 'vite-plugin-istanbul';
 import { defineConfig } from 'vitest/config';
+import { coverageConfigDefaults } from 'vitest/config';
 import path from 'path';
 
 // https://vitejs.dev/config/
@@ -31,6 +32,13 @@ export default defineConfig({
       all: true,
       skipFull: false,
       reporter: 'text',
+      exclude: [
+        ...coverageConfigDefaults.exclude,
+        '**/entry-client.tsx',
+        '**/entry-server.tsx',
+        '**/src/types/data.ts',
+        'server.ts',
+      ],
     },
   },
   resolve: {
