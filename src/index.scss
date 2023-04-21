@@ -25,6 +25,32 @@ body {
   background-color: var(--bg-color-hover);
 }
 
+.carousel-item {
+  height: 50vh;
+}
+.card {
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}
+.footer-cta {
+  box-shadow: rgba(0, 0, 0, 0.15) 0px 5px 15px;
+}
+.price {
+  color: #263238;
+  font-size: 24px;
+}
+
+.card-title {
+  color: #263238;
+}
+
+.sale {
+  color: #e53935;
+}
+
+.sale-badge {
+  background-color: #e53935;
+}
+
 .search-input {
   max-width: 12rem;
 }
@@ -39,8 +65,8 @@ body {
 
 .modal-additional {
   display: block;
-  background-color: rgba(0,0,0,0.5);
-  transition: opacity .15s linear;
+  background-color: rgba(0, 0, 0, 0.5);
+  transition: opacity 0.15s linear;
 }
 
 .center-content {
@@ -48,6 +74,11 @@ body {
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
+}
+
+.rsslogo {
+  background-size: cover;
+  background-repeat: no-repeat;
 }
 
 @media (max-width: 576px) {

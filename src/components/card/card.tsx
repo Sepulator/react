@@ -1,4 +1,3 @@
-import './card.scss';
 import { Product } from '../../types/data';
 
 interface Props {

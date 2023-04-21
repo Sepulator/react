@@ -1,5 +1,4 @@
 import rssLogo from '../../assets/rs_school_js.svg';
-import './footer.scss';
 
 export const Footer = () => {
   return (
