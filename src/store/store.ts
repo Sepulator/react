@@ -1,4 +1,4 @@
-import { combineReducers, configureStore } from '@reduxjs/toolkit';
+import { PreloadedState, combineReducers, configureStore } from '@reduxjs/toolkit';
 
 import cardsReducer from './cardsSlice';
 import productsReducer from './producstSlice';
@@ -10,10 +10,11 @@ const rootReducer = combineReducers({
   [productApi.reducerPath]: productApi.reducer,
 });
 
-export const setupStore = () => {
+export const setupStore = (preloadedState?: PreloadedState<RootState>) => {
   return configureStore({
     reducer: rootReducer,
     middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(productApi.middleware),
+    preloadedState,
   });
 };
 

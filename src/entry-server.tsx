@@ -1,6 +1,6 @@
 import type * as express from 'express';
 import React from 'react';
-import ReactDOMServer from 'react-dom/server';
+import ReactDOMServer, { RenderToPipeableStreamOptions } from 'react-dom/server';
 import {
   createStaticHandler,
   createStaticRouter,
@@ -10,8 +10,15 @@ import {
 import { routes } from './router';
 import { Provider } from 'react-redux';
 import { setupStore } from './store/store';
+import { InjectPreloadState } from './temlate';
+import { productApi } from './store/api';
 
-export async function render(request: express.Request, options: object) {
+const store = setupStore();
+
+export async function render(request: express.Request, options: RenderToPipeableStreamOptions) {
+  await Promise.all(store.dispatch(productApi.util.getRunningQueriesThunk()));
+  const preloadedState = store.getState();
+
   const { query, dataRoutes } = createStaticHandler(routes);
   const remixRequest = createFetchRequest(request);
   const context = await query(remixRequest);
@@ -21,12 +28,15 @@ export async function render(request: express.Request, options: object) {
   }
 
   const router = createStaticRouter(dataRoutes, context);
+
   return ReactDOMServer.renderToPipeableStream(
-    <React.StrictMode>
-      <Provider store={setupStore()}>
-        <StaticRouterProvider router={router} context={context} nonce="the-nonce" />
-      </Provider>
-    </React.StrictMode>,
+    <InjectPreloadState preloadedState={preloadedState}>
+      <React.StrictMode>
+        <Provider store={store}>
+          <StaticRouterProvider router={router} context={context} nonce="the-nonce" />
+        </Provider>
+      </React.StrictMode>
+    </InjectPreloadState>,
     options
   );
 }
