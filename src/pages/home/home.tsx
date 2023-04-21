@@ -11,8 +11,6 @@ const search = `/products/search?q=`;
 const limit = 24;
 const skip = 0;
 
-import { useLocalStorage } from '@/hooks/useLocalStorage';
-
 export const Home = () => {
   const [text, setText] = useLocalStorage('text', '');
   const [showModal, setShowModal] = useState(false);
