@@ -1,13 +1,12 @@
-import { describe, it, vi } from 'vitest';
+import { describe, it } from 'vitest';
 import { render, screen } from '@testing-library/react';
-import { CardForm, IFormResult } from './cardform';
 
-const imageFile = new File(['hello'], 'hello.png', { type: 'image/png' });
+import { CardForm } from './cardform';
+import { ICardForm } from '@/store/cardsSlice';
 
 describe('Card Form', () => {
-  window.URL.createObjectURL = vi.fn();
-  const cardItem: IFormResult = {
-    file: imageFile,
+  const cardItem: ICardForm = {
+    image: 'imageFile',
     text: 'Title',
     date: 'string',
     select: 'string',

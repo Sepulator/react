@@ -1,35 +1,41 @@
-import { useLocalStorage } from '@/hooks/useLocalStorage';
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent, FormEvent, useEffect, useState } from 'react';
 
 import { Card } from '@/components/card/card';
 import { Spinner } from '@/components/icons';
-import { useFetch } from '@/hooks/useFetch';
-import { Product } from '@/types/data';
 import { CardExpanded } from '@/components/card-expanded/card-expanded';
-
-const search = `/products/search?q=`;
-const limit = 24;
-const skip = 0;
+import { useAppDispatch, useAppSelector } from '@/store/hooks';
+import { setSearchText } from '@/store/producstSlice';
+import { SearchBar } from '@/components/search-bar/search-bar';
+import { useGetAllProductsQuery, useGetProductQuery } from '@/store/api';
 
 export const Home = () => {
-  const [text, setText] = useLocalStorage('text', '');
+  const [id, setId] = useState(1);
+  const [queryText, setQueryText] = useState('');
+  const text = useAppSelector((state) => state.products.searchText);
   const [showModal, setShowModal] = useState(false);
-  const [isClicked, setIsClicked] = useState(1);
-  const [searchQuery, setSearchQuery] = useState(`${search}${text}&limit=${limit}&skip=${skip}`);
-  const { data, isPending, error } = useFetch(searchQuery);
-  const {
-    data: product,
-    isPending: isPendingCard,
-    error: errorCard,
-  } = useFetch(`/products/${isClicked}`);
 
-  const onSubmit = () => {
-    setSearchQuery(`${search}${text}&limit=${limit}&skip=${skip}`);
+  const dispatch = useAppDispatch();
+  const {
+    data: productsApi,
+    error: errorProducts,
+    isFetching: isFetchingProducts,
+  } = useGetAllProductsQuery(queryText);
+  const { data, isFetching } = useGetProductQuery(id);
+
+  useEffect(() => {
+    if (!text) return;
+    setQueryText(text);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const onSubmit = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setQueryText(text);
   };
 
   const handleOpen = (id: number) => {
     if (id) {
-      setIsClicked(id);
+      setId(id);
       setShowModal(true);
     }
   };
@@ -38,51 +44,49 @@ export const Home = () => {
     setShowModal(false);
   };
 
-  const items = data?.products.map((item) => (
-    <Card data={item} key={item.id} handleOpen={handleOpen} />
-  ));
+  const handleModal = (e: React.MouseEvent<HTMLDivElement>) => {
+    const target = e.target as HTMLElement;
+    const isCard = target.closest('.modal-content');
+    if (!isCard) setShowModal(false);
+  };
 
   return (
     <>
       <nav className="navbar navbar-expand-lg navbar-dark mt-3 mb-3 shadow p-2 bg-color">
-        <form className="input-group w-auto py-1" onSubmit={onSubmit}>
-          <div className="bg-light">
-            <input
-              type="search"
-              className="form-control rounded-0"
-              placeholder="Search"
-              value={text}
-              onInput={(e: ChangeEvent<HTMLInputElement>) => setText(e.target.value)}
-            />
-          </div>
-          <button type="submit" className="btn btn-primary" id="search-button">
-            <i className="fas fa-search"></i>
-          </button>
-        </form>
+        <SearchBar
+          text={text}
+          onSubmit={onSubmit}
+          onInput={(e: ChangeEvent<HTMLInputElement>) => dispatch(setSearchText(e.target.value))}
+        />
       </nav>
 
-      {error && <div>{error}</div>}
-
-      {isPending && (
+      {isFetchingProducts && (
         <div className="modal modal-additional">
           <Spinner className="modal-dialog modal-dialog-centered" />
         </div>
       )}
 
       <div className="text-center mb-2">
-        <div className="row">{items}</div>
+        <div className="row">
+          {productsApi &&
+            productsApi.products.map((item) => (
+              <Card key={item.id} data={item} handleOpen={handleOpen} />
+            ))}
+        </div>
       </div>
 
-      {!isPending && !Boolean(items?.length) && (
-        <h3 className="center-content">Nothing to display</h3>
+      {!isFetchingProducts && productsApi && !Boolean(productsApi.products?.length) && (
+        <h3 className="center-content">{'Nothing to display'}</h3>
       )}
 
-      {showModal && isClicked && (
+      {errorProducts && <h3 className="center-content">{`${errorProducts}`}</h3>}
+
+      {showModal && (
         <CardExpanded
-          data={product as unknown as Product | null}
-          isPending={isPendingCard}
-          error={errorCard}
+          data={data}
           handleClose={handleClose}
+          handleModal={handleModal}
+          isPending={isFetching}
         />
       )}
     </>

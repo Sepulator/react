@@ -27,10 +27,15 @@ const cardItem: Product = {
 describe('Error', () => {
   it('Renders card expanded', () => {
     const handleClose = vi.fn();
+    const handleModal = vi.fn();
     const isPending = false;
-    const error = 'false';
     render(
-      <CardExpanded data={cardItem} isPending={isPending} error={error} handleClose={handleClose} />
+      <CardExpanded
+        data={cardItem}
+        isPending={isPending}
+        handleModal={handleModal}
+        handleClose={handleClose}
+      />
     );
     expect(
       screen.getByRole('heading', {

@@ -1,13 +1,13 @@
 import { describe, it, vi } from 'vitest';
-import { render, screen } from '@testing-library/react';
+import { screen } from '@testing-library/react';
 import { Form } from './form';
+import { renderWithProviders } from '@/utils/test-utils';
 
 describe('Form', () => {
   window.URL.createObjectURL = vi.fn();
-  const generateCards = vi.fn();
 
   it('Renders Form Component', () => {
-    render(<Form generateCards={generateCards} />);
+    renderWithProviders(<Form />);
     expect(screen.getByRole('form')).toHaveLength(12);
   });
 });
