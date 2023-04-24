@@ -10,7 +10,7 @@ import {
 import { routes } from './router';
 import { Provider } from 'react-redux';
 import { setupStore } from './store/store';
-import { InjectPreloadState } from './temlate';
+import { InjectPreloadState } from './InjectPreloadState';
 import { productApi } from './store/api';
 
 const store = setupStore();

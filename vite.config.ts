@@ -13,6 +13,9 @@ import path from 'path';
 // https://vitejs.dev/config/
 export default defineConfig({
   base: '/',
+  server: {
+    open: true,
+  },
   plugins: [
     react(),
     eslint(),
@@ -36,6 +39,7 @@ export default defineConfig({
         ...coverageConfigDefaults.exclude,
         '**/entry-client.tsx',
         '**/entry-server.tsx',
+        '**/InjectPreloadState.tsx',
         '**/src/types/data.ts',
         'server.ts',
       ],

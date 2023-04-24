@@ -1,13 +1,13 @@
 import { PreloadedState } from '@reduxjs/toolkit';
+import { PropsWithChildren } from 'react';
+
 import { RootState } from './store/store';
-import { ReactNode } from 'react';
 
 interface Props {
   preloadedState: PreloadedState<RootState>;
-  children?: ReactNode;
 }
 
-export const InjectPreloadState = ({ preloadedState, children }: Props) => {
+export const InjectPreloadState = ({ preloadedState, children }: PropsWithChildren<Props>) => {
   return (
     <>
       {children}

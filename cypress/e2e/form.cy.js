@@ -1,6 +1,13 @@
 describe('Form Page Test', () => {
-  it('check errors validation', () => {
+  beforeEach(() => {
     cy.visit('/form');
+  });
+
+  afterEach(() => {
+    cy.window().trigger('unload');
+  });
+
+  it('check errors validation', () => {
     cy.getByData('submit-button').click();
     cy.getByData('text-input').should('have.class', 'is-invalid');
     cy.getByData('date-input').should('have.class', 'is-invalid');
@@ -19,7 +26,6 @@ describe('Form Page Test', () => {
   });
 
   it('submit data', () => {
-    cy.visit('/form');
     cy.getByData('text-input').type('JavaScript');
     cy.getByData('date-input').type('2023-01-10');
     cy.getByData('radio-input').last().check();
@@ -31,9 +37,5 @@ describe('Form Page Test', () => {
     cy.getByData('submit-button').click();
     cy.getByData('toast-id').should('be.visible').and('contain', 'Card succesfully added');
     cy.getByData('card-form').should('have.length', 1);
-  });
-
-  it('Does not do much!', () => {
-    expect(true).to.equal(true);
   });
 });

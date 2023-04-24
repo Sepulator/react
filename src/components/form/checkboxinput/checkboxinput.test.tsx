@@ -1,5 +1,3 @@
-import React from 'react';
-
 import { describe, it, vi } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import { FieldErrorsImpl } from 'react-hook-form/dist/types';

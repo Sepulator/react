@@ -1,4 +1,5 @@
 import { FieldErrorsImpl, UseFormRegister } from 'react-hook-form/dist/types';
+
 import { IFormInputs } from '../form';
 
 interface Props {
