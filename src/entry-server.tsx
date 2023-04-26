@@ -16,6 +16,7 @@ import { productApi } from './store/api';
 const store = setupStore();
 
 export async function render(request: express.Request, options: RenderToPipeableStreamOptions) {
+  store.dispatch(productApi.endpoints.getAllProducts.initiate(''));
   await Promise.all(store.dispatch(productApi.util.getRunningQueriesThunk()));
   const preloadedState = store.getState();
 
