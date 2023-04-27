@@ -4,7 +4,7 @@ import { Form } from '@/components/form/form';
 import { CardForm } from '@/components/card-form/cardform';
 
 export const FormPage = () => {
-  const cards = useAppSelector((state) => state.cards.cards);
+  const cards = useAppSelector((state) => state.cards);
   const items = cards.map((el, index) => <CardForm {...el} key={index} />);
   return (
     <>

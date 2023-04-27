@@ -1,5 +1,4 @@
-import './card.scss';
-import { Product } from '../../types/data';
+import { Product } from '@/types/data';
 
 interface Props {
   handleOpen: (id: number) => void;

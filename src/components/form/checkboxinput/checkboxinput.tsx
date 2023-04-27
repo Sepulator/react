@@ -1,4 +1,5 @@
 import { FieldErrorsImpl, UseFormRegister } from 'react-hook-form/dist/types';
+
 import { IFormInputs } from '../form';
 
 interface Props {
@@ -18,6 +19,7 @@ export const CheckboxInput = ({ register, errors }: Props) => {
             type="checkbox"
             value="Very exclusive"
             id="exclusive"
+            data-testid="checkbox-input"
           />
           <label className="form-check-label" htmlFor="exclusive">
             Very exclusive
@@ -32,6 +34,7 @@ export const CheckboxInput = ({ register, errors }: Props) => {
             type="checkbox"
             value="New arrival"
             id="arrival"
+            data-testid="checkbox-input"
           />
           <label className="form-check-label" htmlFor="arrival">
             New arrival
@@ -45,6 +48,7 @@ export const CheckboxInput = ({ register, errors }: Props) => {
             type="checkbox"
             value="Best Seller"
             id="best"
+            data-testid="checkbox-input"
           />
           <label className="form-check-label" htmlFor="best">
             Best Seller
